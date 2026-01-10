@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PERFUME HEAVEN | WESSAM MAKKAWI ONLINE STORE</title>
+    <style>
+        /* THEME DEFINITIONS */
+        :root {
+            --deep-green: #1a3c34;
+            --gold: #d4af37;
+            --dark-bg: #050f0d;
+            --card-bg: rgba(26, 60, 52, 0.4);
+            --text-main: #ffffff;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --accent-blue: #3498db;
+            --accent-green: #27ae60;
+        }
+
+        [data-theme="charcoal"] {
+            --deep-green: #2c2c2c;
+            --gold: #e0e0e0;
+            --dark-bg: #121212;
+            --card-bg: rgba(255, 255, 255, 0.05);
+        }
+
+        [data-theme="royal"] {
+            --deep-green: #3d0a0a;
+            --gold: #ffd700;
+            --dark-bg: #1a0505;
+            --card-bg: rgba(61, 10, 10, 0.4);
+        }
+
+        body {
+            margin: 0; font-family: 'Segoe UI', sans-serif;
+            background-color: var(--dark-bg); color: var(--text-main);
+            overflow-x: hidden; transition: var(--transition);
+        }
+
+        /* NAVIGATION */
+        nav {
+            display: none; align-items: center; padding: 10px 60px;
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        .nav-logo { color: var(--gold); font-size: 22px; font-weight: 800; letter-spacing: 2px; margin-right: 40px; }
+        .nav-links a { color: #ccc; text-decoration: none; margin-right: 25px; font-size: 13px; font-weight: 500; cursor: pointer; transition: 0.3s; }
+        .nav-links a:hover { color: var(--gold); }
+
+        /* HERO SECTION */
+        .hero-banner {
+            width: 100%; height: 320px; 
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('per.jpg');
+            background-size: cover; background-position: center;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            border-radius: 20px; margin-bottom: 40px; padding: 0 20px;
+        }
+        .store-quote {
+            font-style: italic; font-size: 1.6rem; color: var(--gold);
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.8); text-align: center;
+            max-width: 800px; line-height: 1.4;
+        }
+
+        /* AUTHENTICATION & OVERLAYS */
+        .auth-screen, .checkout-overlay {
+            position: fixed; inset: 0; background: radial-gradient(circle at center, rgba(0,0,0,0.4), var(--dark-bg)), url('per.jpg');
+            background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; z-index: 3000;
+        }
+        
+        .auth-card, .checkout-card {
+            background: rgba(10, 30, 25, 0.95); backdrop-filter: blur(25px);
+            padding: 40px; border-radius: 20px; border: 1px solid rgba(212, 175, 55, 0.2);
+            width: 440px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+            max-height: 90vh; overflow-y: auto;
+        }
+
+        /* GRID & CARDS */
+        .page-content { display: none; padding: 40px 60px; animation: fadeIn 0.6s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 30px; }
+        .card { 
+            background: var(--card-bg); border: 1px solid rgba(255,255,255,0.05); border-radius: 15px; padding: 20px; 
+            text-align: center; transition: var(--transition);
+        }
+        .card:hover { transform: translateY(-5px); border-color: var(--gold); }
+        .card img { width: 100%; height: 220px; object-fit: contain; margin-bottom: 15px; }
+
+        /* PROFESSIONAL ORDERS UI */
+        .order-container { max-width: 900px; margin: 0 auto; }
+        .order-item {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(212, 175, 55, 0.1);
+            padding: 25px; border-radius: 15px; margin-bottom: 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            transition: 0.3s;
+        }
+        .order-item:hover { border-color: var(--gold); background: rgba(255,255,255,0.06); }
+        
+        .status-badge {
+            padding: 6px 14px; border-radius: 20px; font-size: 11px; font-weight: bold;
+            text-transform: uppercase; letter-spacing: 1px;
+            background: var(--gold); color: black;
+        }
+        .status-processing { background: var(--accent-blue); color: white; }
+        
+        /* UI ELEMENTS */
+        input, textarea, select { 
+            width: 100%; padding: 12px; margin: 8px 0; 
+            background: rgba(0,0,0,0.5); border: 1px solid rgba(212, 175, 55, 0.4); 
+            color: white; border-radius: 8px; outline: none; box-sizing: border-box;
+        }
+        button { 
+            background: var(--gold); color: black; border: none; padding: 12px; 
+            font-weight: bold; cursor: pointer; width: 100%; border-radius: 8px; 
+            transition: 0.3s; margin-top: 10px; text-transform: uppercase;
+        }
+
+        #cart-sidebar {
+            position: fixed; right: -400px; top: 0; width: 350px; height: 100%;
+            background: rgba(5, 15, 13, 0.98); border-left: 1px solid var(--gold); padding: 30px; transition: 0.4s; z-index: 2500;
+        }
+        .hidden { display: none !important; }
+        .link-btn { cursor: pointer; color: var(--gold); text-decoration: underline; font-size: 13px; }
+        
+        .theme-box { position: fixed; bottom: 20px; left: 20px; background: rgba(0,0,0,0.8); padding: 10px; border-radius: 30px; border: 1px solid var(--gold); z-index: 4000; display: flex; gap: 10px; }
+        .dot { width: 20px; height: 20px; border-radius: 50%; cursor: pointer; border: 1px solid white; }
+    </style>
+</head>
+<body>
+
+<div class="theme-box">
+    <div class="dot" style="background:#1a3c34" onclick="setTheme('default')"></div>
+    <div class="dot" style="background:#2c2c2c" onclick="setTheme('charcoal')"></div>
+    <div class="dot" style="background:#3d0a0a" onclick="setTheme('royal')"></div>
+</div>
+
+<div id="login-screen" class="auth-screen">
+    <div class="auth-card">
+        <h1 style="color:var(--gold); margin-bottom: 5px;">PERFUME HEAVEN</h1>
+        <p style="font-size: 11px; letter-spacing: 2px; color: #888;">WESSAM MAKKAWI ONLINE STORE</p>
+        <h2>Member Login</h2>
+        <input type="text" id="user-in" placeholder="Username (admin)">
+        <input type="password" id="pass-in" placeholder="Password (admin)">
+        <button onclick="handleLogin()">SIGN IN</button>
+        <p style="margin-top:20px;">
+            <span class="link-btn" onclick="toggleAuth('forgot')">Forgot Password?</span> | 
+            <span class="link-btn" onclick="toggleAuth('register')">Create Account</span>
+        </p>
+    </div>
+</div>
+
+<div id="register-screen" class="auth-screen hidden">
+    <div class="auth-card">
+        <h2>Join the Online Store</h2>
+        <input type="text" placeholder="Create Username">
+        <input type="email" placeholder="Email Address">
+        <input type="password" placeholder="Create Password">
+        <button onclick="toggleAuth('login')">REGISTER</button>
+        <p style="margin-top:20px;"><span class="link-btn" onclick="toggleAuth('login')">Back to Login</span></p>
+    </div>
+</div>
+
+<div id="forgot-screen" class="auth-screen hidden">
+    <div class="auth-card">
+        <h2>Recover Password</h2>
+        <input type="email" placeholder="Enter your registered email">
+        <button onclick="alert('Reset link sent!'); toggleAuth('login')">SEND LINK</button>
+        <p style="margin-top:20px;"><span class="link-btn" onclick="toggleAuth('login')">Back to Login</span></p>
+    </div>
+</div>
+
+<nav id="main-nav">
+    <div class="nav-logo">PH</div>
+    <div class="nav-links">
+        <a onclick="showPage('home')">HOME</a>
+        <a onclick="showPage('about')">ABOUT</a>
+        <a onclick="showPage('contact')">CONTACT</a>
+        <a onclick="showPage('orders')">ORDERS</a>
+    </div>
+    <div style="flex-grow: 1; text-align: center;">
+        <input type="text" style="width: 60%; margin:0; border-radius: 20px;" placeholder="Search fragrance..." onkeyup="search(this.value)">
+    </div>
+    <div style="cursor:pointer; position: relative;" onclick="toggleCart()">🛒 <span id="cart-count">0</span></div>
+    <button onclick="location.reload()" style="width: auto; background: transparent; color: #888; margin-left: 20px; font-size: 12px; border:none;">Logout</button>
+</nav>
+
+<div id="home-page" class="page-content">
+    <div class="hero-banner">
+        <div class="store-quote">"Fragrance is like a piece of clothing, a message, a way of presenting oneself."</div>
+        <p style="color: white; margin-top: 15px; letter-spacing: 3px; font-weight: 300;">WESSAM MAKKAWI ONLINE STORE</p>
+    </div>
+    <h2 style="letter-spacing: 2px; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 15px;">EXQUISITE COLLECTION</h2>
+    <div id="product-grid" class="grid"></div>
+</div>
+
+<div id="about-page" class="page-content">
+    <div style="max-width: 900px; margin: 0 auto; line-height: 1.8;">
+        <div style="text-align: center; margin-bottom: 50px;">
+            <h1 style="color: var(--gold); font-size: 3rem; margin-bottom: 10px;">ABOUT US</h1>
+            <div style="width: 100px; height: 2px; background: var(--gold); margin: 0 auto;"></div>
+        </div>
+        <div style="background: var(--card-bg); padding: 40px; border-radius: 20px; border: 1px solid var(--gold);">
+            <h3 style="color: var(--gold);">Our Story</h3>
+            <p>Founded by <strong>Wessam Makkawi</strong>, a dedicated Computer Information Systems student at the University of Jordan, Perfume Heaven was born from a passion for the intersection of olfactory art and digital precision. What started as a curated selection has evolved into a premier <strong>Online Store</strong> for fragrance connoisseurs.</p>
+            
+            <h3 style="color: var(--gold); margin-top: 20px;">The Philosophy</h3>
+            <p>At our Online Store, we believe that a scent is more than just a fragrance—it is a digital signature of one's personality. By utilizing advanced logic and a deep understanding of aromatic chemistry, we ensure that every bottle in our collection represents the pinnacle of luxury and longevity.</p>
+
+            <h3 style="color: var(--gold); margin-top: 20px;">Modern Elegance</h3>
+            <p>We pride ourselves on providing a seamless technological experience. From our secure encrypted checkout to our global sourcing of rare essences, the Wessam Makkawi Online Store remains at the forefront of the modern perfume industry, bridging the gap between traditional hospitality and global digital standards.</p>
+        </div>
+    </div>
+</div>
+
+<div id="contact-page" class="page-content">
+    <div style="max-width: 600px; margin: 0 auto;">
+        <div style="text-align: center; margin-bottom: 40px;">
+            <h2 style="color: var(--gold); letter-spacing: 2px;">GET IN TOUCH</h2>
+            <div style="width: 50px; height: 1px; background: var(--gold); margin: 10px auto;"></div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 40px; text-align: center;">
+            <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px; border: 1px solid rgba(212,175,55,0.1);">
+                <p style="color: var(--gold); font-size: 12px; text-transform: uppercase; margin-bottom: 5px;">Call Us</p>
+                <p style="margin: 0; font-weight: 500;">+962 79 127 8583</p>
+            </div>
+            <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px; border: 1px solid rgba(212,175,55,0.1);">
+                <p style="color: var(--gold); font-size: 12px; text-transform: uppercase; margin-bottom: 5px;">Location</p>
+                <p style="margin: 0; font-weight: 500;">Al-Jubaiha, Amman</p>
+            </div>
+        </div>
+
+        <div style="background: var(--card-bg); padding: 30px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05);">
+            <p style="text-align: center; color: #aaa; margin-bottom: 20px;">Email: <strong>support@perfumeheaven.jo</strong></p>
+            <input type="text" placeholder="Your Name">
+            <input type="email" placeholder="Your Email">
+            <textarea placeholder="How can we help you?" style="height: 120px;"></textarea>
+            <button onclick="alert('Message Sent')">SEND MESSAGE</button>
+        </div>
+    </div>
+</div>
+
+<div id="orders-page" class="page-content">
+    <div class="order-container">
+        <h1 style="color: var(--gold); font-weight: 300; margin-bottom: 30px;">ORDER DASHBOARD</h1>
+        <div id="order-history-list">
+            <div style="text-align: center; padding: 50px; opacity: 0.5;">
+                <p>No active shipments found in your account history.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="cart-sidebar">
+    <h2 style="color: var(--gold);">YOUR BAG</h2>
+    <div id="cart-items-list" style="max-height: 60vh; overflow-y: auto;"></div>
+    <hr style="border: 0; border-top: 1px solid #333; margin: 20px 0;">
+    <h3>TOTAL: <span id="cart-total">0</span> JOD</h3>
+    <button onclick="openCheckout()">PROCEED TO CHECKOUT</button>
+    <button onclick="toggleCart()" style="background:transparent; color:white; border: 1px solid #333;">CLOSE</button>
+</div>
+
+<div id="checkout-overlay" class="checkout-overlay hidden">
+    <div class="checkout-card">
+        <h2 style="color:var(--gold)">SECURE CHECKOUT</h2>
+        <p id="checkout-total-msg" style="font-weight: bold;"></p>
+        <input type="text" id="order-phone" placeholder="Phone Number">
+        <textarea id="order-location" placeholder="Full Delivery Address"></textarea>
+        <select id="payment-method" onchange="toggleCardInputs()">
+            <option value="cod">Cash on Delivery</option>
+            <option value="credit">Credit / Debit Card</option>
+        </select>
+        <div id="credit-card-info" class="hidden">
+            <input type="text" placeholder="Cardholder Name">
+            <input type="text" maxlength="16" placeholder="0000 0000 0000 0000">
+            <div style="display: flex; gap: 10px;">
+                <input type="text" placeholder="MM/YY">
+                <input type="password" maxlength="3" placeholder="CVV">
+            </div>
+        </div>
+        <button onclick="processFinalOrder()">CONFIRM ORDER</button>
+        <button onclick="closeCheckout()" style="background:#444; color:white;">CANCEL</button>
+    </div>
+</div>
+
+<script>
+    const perfumes = [
+        { name: "Dior Sauvage Elixir", price: 115, img: "download.jpg" },
+        { name: "Dior Homme Intense", price: 105, img: "PER2.jpg" },
+        { name: "Miss Dior EDP", price: 118, img: "PER2 (2).jpg" },
+        { name: "Bleu de Chanel Parfum", price: 145, img: "download (3).jpg" },
+        { name: "JBG Eltra male", price: 85, img: "download (4).jpg" },
+        { name: "JBG ElixIr", price: 115, img: "download (5).jpg" },
+        { name: "HACIVAT NISHANE", price: 199, img: "download (6).jpg" },
+        { name: "Creed Aventus", price: 210, img: "download (7).jpg" },
+        { name: "YSL Y EDP", price: 145, img: "download (8).jpg" },
+        { name: "Spicebomb", price: 94, img: "download (9).jpg" },
+        { name: "Baccarat Rouge 540", price: 160, img: "download (10).jpg" },
+        { name: "Chanel No. 5", price: 149, img: "download (11).jpg" },
+        { name: "Prada Paradoxe", price: 109, img: "download (12).jpg" },
+        { name: "Delina Exclusif", price: 260, img: "download (13).jpg" },
+        { name: "CK One Unisex", price: 50, img: "download (14).jpg" },
+        { name: "Tom Ford Tobacco Vanille", price: 240, img: "per21.jpg" },
+        { name: "Terre D'Hermes", price: 90, img: "download (16).jpg" },
+        { name: "Yatagan by Caron", price: 100, img: "download (17).jpg" },
+        { name: "Bvlgari Man", price: 90, img: "download (18).jpg" },
+        { name: "A*Men Pure Mal", price: 75, img: "download (19).jpg" }
+    ];
+
+    let cart = [];
+    let orders = [];
+
+    function setTheme(t) { document.body.setAttribute('data-theme', t); }
+
+    function toggleAuth(s) {
+        document.querySelectorAll('.auth-screen').forEach(x => x.classList.add('hidden'));
+        document.getElementById(s + '-screen').classList.remove('hidden');
+    }
+
+    function handleLogin() {
+        const u = document.getElementById('user-in').value;
+        const p = document.getElementById('pass-in').value;
+        if(u === 'admin' && p === 'admin') {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('main-nav').style.display = 'flex';
+            showPage('home'); render(perfumes);
+        } else { alert("Login Error."); }
+    }
+
+    function showPage(id) {
+        document.querySelectorAll('.page-content').forEach(p => p.style.display = 'none');
+        document.getElementById(id + '-page').style.display = 'block';
+    }
+
+    function render(list) {
+        document.getElementById('product-grid').innerHTML = list.map(p => `
+            <div class="card">
+                <img src="${p.img}" onerror="this.src='https://via.placeholder.com/200'">
+                <h3>${p.name}</h3>
+                <p style="color:var(--gold); font-weight:bold;">${p.price} JOD</p>
+                <button onclick="addToCart('${p.name}', ${p.price})">ADD TO BAG</button>
+            </div>
+        `).join('');
+    }
+
+    function addToCart(n, p) {
+        cart.push({name: n, price: p});
+        document.getElementById('cart-count').innerText = cart.length;
+        updateCart();
+    }
+
+    function toggleCart() {
+        const b = document.getElementById('cart-sidebar');
+        b.style.right = (b.style.right === '0px') ? '-400px' : '0px';
+    }
+
+    function updateCart() {
+        document.getElementById('cart-items-list').innerHTML = cart.map(i => `<p>${i.name} - ${i.price} JOD</p>`).join('');
+        document.getElementById('cart-total').innerText = cart.reduce((s, i) => s + i.price, 0);
+    }
+
+    function openCheckout() {
+        if(cart.length === 0) return;
+        document.getElementById('checkout-total-msg').innerText = "Total: " + document.getElementById('cart-total').innerText + " JOD";
+        document.getElementById('checkout-overlay').classList.remove('hidden');
+        toggleCart();
+    }
+
+    function closeCheckout() { document.getElementById('checkout-overlay').classList.add('hidden'); }
+
+    function toggleCardInputs() {
+        const m = document.getElementById('payment-method').value;
+        document.getElementById('credit-card-info').classList.toggle('hidden', m !== 'credit');
+    }
+
+    function processFinalOrder() {
+        const orderID = "PH" + Math.floor(Math.random() * 90000 + 10000);
+        orders.unshift({
+            id: orderID,
+            total: document.getElementById('cart-total').innerText,
+            date: new Date().toLocaleDateString(),
+            items: cart.length
+        });
+        cart = []; updateCart(); document.getElementById('cart-count').innerText = "0";
+        updateOrders(); closeCheckout();
+        alert("Order Confirmed! Tracking ID: " + orderID);
+    }
+
+    function updateOrders() {
+        if(orders.length === 0) return;
+        document.getElementById('order-history-list').innerHTML = orders.map(o => `
+            <div class="order-item">
+                <div style="text-align: left;">
+                    <div style="font-size: 11px; color: var(--gold); letter-spacing: 1px;">ORDER #${o.id}</div>
+                    <div style="font-size: 18px; margin: 5px 0;">${o.total} JOD <span style="font-size: 12px; color: #888;">(${o.items} items)</span></div>
+                    <div style="font-size: 12px; color: #666;">Placed on: ${o.date}</div>
+                </div>
+                <div style="text-align: right;">
+                    <div class="status-badge status-processing">Processing</div>
+                    <div style="font-size: 10px; color: #555; margin-top: 8px;">Est. Delivery: 48 Hours</div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function search(q) {
+        render(perfumes.filter(p => p.name.toLowerCase().includes(q.toLowerCase())));
+    }
+</script>
+</body>
+</html>
+index.html
