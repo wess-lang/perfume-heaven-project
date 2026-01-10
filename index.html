@@ -126,6 +126,23 @@
         
         .theme-box { position: fixed; bottom: 20px; left: 20px; background: rgba(0,0,0,0.8); padding: 10px; border-radius: 30px; border: 1px solid var(--gold); z-index: 4000; display: flex; gap: 10px; }
         .dot { width: 20px; height: 20px; border-radius: 50%; cursor: pointer; border: 1px solid white; }
+
+        /* ADDED MOBILE OPTIMIZATIONS */
+        @media (max-width: 768px) {
+            nav, .page-content { padding: 10px 20px !important; }
+            nav { flex-wrap: wrap; gap: 10px; justify-content: space-between; }
+            .nav-logo { margin-right: 10px; }
+            .nav-links { order: 3; width: 100%; display: flex; justify-content: center; margin-top: 10px; }
+            .nav-links a { margin-right: 15px; font-size: 11px; }
+            div[style*="flex-grow: 1"] { width: 70%; }
+            div[style*="flex-grow: 1"] input { width: 100% !important; }
+            .auth-card, .checkout-card { width: 90% !important; padding: 20px !important; }
+            .hero-banner { height: 250px; margin-bottom: 20px; }
+            .store-quote { font-size: 1.2rem; }
+            #cart-sidebar { width: 280px; }
+            div[style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
+            .grid { gap: 15px; }
+        }
     </style>
 </head>
 <body>
@@ -411,4 +428,3 @@
 </script>
 </body>
 </html>
-index.html
