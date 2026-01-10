@@ -128,39 +128,31 @@
         .theme-box { position: fixed; bottom: 20px; left: 20px; background: rgba(0,0,0,0.8); padding: 10px; border-radius: 30px; border: 1px solid var(--gold); z-index: 4000; display: flex; gap: 10px; }
         .dot { width: 20px; height: 20px; border-radius: 50%; cursor: pointer; border: 1px solid white; }
 
-        /* MAGIC PHONE OPTIMIZATIONS */
+        /* CANCEL BUTTON STYLE */
+        .cancel-item {
+            color: #ff4d4d;
+            background: transparent;
+            border: none;
+            width: auto;
+            padding: 0 5px;
+            margin: 0;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        /* MOBILE OPTIMIZATIONS */
         @media (max-width: 768px) {
-            nav { 
-                padding: 15px; 
-                flex-direction: column; 
-                height: auto; 
-                gap: 15px;
-            }
+            nav { padding: 15px; flex-direction: column; height: auto; gap: 15px; }
             .nav-logo { margin: 0; font-size: 26px; }
-            .nav-links { 
-                display: flex; 
-                justify-content: space-around; 
-                width: 100%; 
-                border-top: 1px solid rgba(212, 175, 55, 0.1);
-                padding-top: 10px;
-            }
-            .nav-links a { 
-                margin: 0; 
-                font-size: 12px; 
-                font-weight: 700; 
-                color: var(--gold);
-            }
+            .nav-links { display: flex; justify-content: space-around; width: 100%; border-top: 1px solid rgba(212, 175, 55, 0.1); padding-top: 10px; }
+            .nav-links a { margin: 0; font-size: 12px; font-weight: 700; color: var(--gold); }
             .page-content { padding: 20px 15px; }
             .hero-banner { height: 250px; border-radius: 10px; }
-            .store-quote { font-size: 1.2rem; }
             .grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-            .card { padding: 10px; }
             .card img { height: 140px; }
-            .card h3 { font-size: 14px; }
             #cart-sidebar { width: 100%; right: -100%; }
             .auth-card, .checkout-card { width: 90%; padding: 25px; }
-            
-            div[style*="flex-grow: 1"] { width: 100%; margin: 5px 0; }
+            div[style*="flex-grow: 1"] { width: 100%; }
             div[style*="flex-grow: 1"] input { width: 100% !important; border-radius: 25px !important; }
         }
     </style>
@@ -242,13 +234,9 @@
         </div>
         <div style="background: var(--card-bg); padding: 30px; border-radius: 20px; border: 1px solid var(--gold);">
             <h3 style="color: var(--gold);">Our Story</h3>
-            <p>Founded by <strong>Wessam Makkawi</strong>, a dedicated Computer Information Systems student at the University of Jordan, Perfume Heaven was born from a passion for the intersection of olfactory art and digital precision. What started as a curated selection has evolved into a premier <strong>Online Store</strong> for fragrance connoisseurs.</p>
-            
-            <h3 style="color: var(--gold); margin-top: 20px;">The Philosophy</h3>
-            <p>At our Online Store, we believe that a scent is more than just a fragrance—it is a digital signature of one's personality. By utilizing advanced logic and a deep understanding of aromatic chemistry, we ensure that every bottle in our collection represents the pinnacle of luxury and longevity.</p>
-
+            <p>Founded by <strong>Wessam Makkawi</strong>, a dedicated CIS student at the University of Jordan, Perfume Heaven was born from a passion for the intersection of olfactory art and digital precision.</p>
             <h3 style="color: var(--gold); margin-top: 20px;">Modern Elegance</h3>
-            <p>We pride ourselves on providing a seamless technological experience. From our secure encrypted checkout to our global sourcing of rare essences, the Wessam Makkawi Online Store remains at the forefront of the modern perfume industry, bridging the gap between traditional hospitality and global digital standards.</p>
+            <p>We pride ourselves on providing a seamless technological experience, bridging the gap between traditional hospitality and global digital standards.</p>
         </div>
     </div>
 </div>
@@ -269,9 +257,7 @@
             </div>
         </div>
         <div style="background: var(--card-bg); padding: 25px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05);">
-            <p style="text-align: center; color: #aaa; margin-bottom: 20px;">Email: <strong>support@perfumeheaven.jo</strong></p>
             <input type="text" placeholder="Your Name">
-            <input type="email" placeholder="Your Email">
             <textarea placeholder="How can we help you?" style="height: 100px;"></textarea>
             <button onclick="alert('Message Sent')">SEND MESSAGE</button>
         </div>
@@ -290,8 +276,11 @@
 </div>
 
 <div id="cart-sidebar">
-    <h2 style="color: var(--gold); margin-top:0;">YOUR BAG</h2>
-    <div id="cart-items-list" style="max-height: 55vh; overflow-y: auto; margin-bottom:20px;"></div>
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h2 style="color: var(--gold); margin:0;">YOUR BAG</h2>
+        <span onclick="clearCart()" style="color:#ff4d4d; font-size:12px; cursor:pointer; text-decoration:underline;">CLEAR ALL</span>
+    </div>
+    <div id="cart-items-list" style="max-height: 55vh; overflow-y: auto; margin:20px 0;"></div>
     <div style="border-top: 1px solid #333; padding-top: 15px;">
         <h3 style="display:flex; justify-content:space-between;"><span>TOTAL:</span> <span><span id="cart-total">0</span> JOD</span></h3>
         <button onclick="openCheckout()">PROCEED TO CHECKOUT</button>
@@ -351,11 +340,6 @@
 
     function setTheme(t) { document.body.setAttribute('data-theme', t); }
 
-    function toggleAuth(s) {
-        document.querySelectorAll('.auth-screen').forEach(x => x.classList.add('hidden'));
-        document.getElementById(s + '-screen').classList.remove('hidden');
-    }
-
     function handleLogin() {
         const u = document.getElementById('user-in').value;
         const p = document.getElementById('pass-in').value;
@@ -384,8 +368,33 @@
 
     function addToCart(n, p) {
         cart.push({name: n, price: p});
-        document.getElementById('cart-count').innerText = cart.length;
         updateCart();
+    }
+
+    function removeFromCart(index) {
+        cart.splice(index, 1);
+        updateCart();
+    }
+
+    function clearCart() {
+        if(confirm("Are you sure you want to empty your bag?")) {
+            cart = [];
+            updateCart();
+        }
+    }
+
+    function updateCart() {
+        document.getElementById('cart-count').innerText = cart.length;
+        document.getElementById('cart-items-list').innerHTML = cart.map((i, index) => `
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; font-size:14px;">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <button class="cancel-item" onclick="removeFromCart(${index})">×</button>
+                    <span>${i.name}</span>
+                </div>
+                <span>${i.price} JOD</span>
+            </div>
+        `).join('');
+        document.getElementById('cart-total').innerText = cart.reduce((s, i) => s + i.price, 0);
     }
 
     function toggleCart() {
@@ -395,16 +404,6 @@
         } else {
             b.style.right = '0px';
         }
-    }
-
-    function updateCart() {
-        document.getElementById('cart-items-list').innerHTML = cart.map((i, index) => `
-            <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:14px;">
-                <span>${i.name}</span>
-                <span>${i.price} JOD</span>
-            </div>
-        `).join('');
-        document.getElementById('cart-total').innerText = cart.reduce((s, i) => s + i.price, 0);
     }
 
     function openCheckout() {
@@ -429,7 +428,7 @@
             date: new Date().toLocaleDateString(),
             items: cart.length
         });
-        cart = []; updateCart(); document.getElementById('cart-count').innerText = "0";
+        cart = []; updateCart();
         updateOrders(); closeCheckout();
         alert("Order Confirmed! Tracking ID: " + orderID);
         showPage('orders');
@@ -452,6 +451,13 @@
     function search(q) {
         render(perfumes.filter(p => p.name.toLowerCase().includes(q.toLowerCase())));
     }
+
+    function toggleAuth(s) {
+        document.querySelectorAll('.auth-screen').forEach(x => x.classList.add('hidden'));
+        document.getElementById(s + '-screen').classList.remove('hidden');
+    }
+
+    function setTheme(t) { document.body.setAttribute('data-theme', t); }
 </script>
 </body>
 </html>
