@@ -3,176 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PERFUME HEAVEN | WESSAM MAKKAWI ONLINE STORE</title>
+    <title>PERFUME HEAVEN | LUXURY BOUTIQUE & LAB</title>
     <style>
         /* THEME DEFINITIONS */
         :root {
             --deep-green: #1a3c34;
             --gold: #d4af37;
+            --gold-light: #f3e5ab;
             --dark-bg: #050f0d;
-            --card-bg: rgba(26, 60, 52, 0.4);
+            --card-bg: rgba(26, 60, 52, 0.35);
             --text-main: #ffffff;
             --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             --accent-blue: #3498db;
             --accent-green: #27ae60;
+            --border-gold: rgba(212, 175, 55, 0.25);
         }
 
         [data-theme="charcoal"] {
             --deep-green: #2c2c2c;
             --gold: #e0e0e0;
+            --gold-light: #ffffff;
             --dark-bg: #121212;
             --card-bg: rgba(255, 255, 255, 0.05);
+            --border-gold: rgba(255, 255, 255, 0.2);
         }
 
         [data-theme="royal"] {
             --deep-green: #3d0a0a;
             --gold: #ffd700;
+            --gold-light: #fff0a5;
             --dark-bg: #1a0505;
             --card-bg: rgba(61, 10, 10, 0.4);
+            --border-gold: rgba(255, 215, 0, 0.25);
         }
 
         body {
-            margin: 0; font-family: 'Segoe UI', sans-serif;
+            margin: 0; font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--dark-bg); color: var(--text-main);
             overflow-x: hidden; transition: var(--transition);
         }
 
         /* NAVIGATION */
         nav {
-            display: none; align-items: center; padding: 10px 60px;
-            background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
-            position: sticky; top: 0; z-index: 1000;
+            display: none; align-items: center; justify-content: space-between; padding: 15px 50px;
+            background: rgba(5, 15, 13, 0.92); backdrop-filter: blur(25px);
+            border-bottom: 1px solid var(--border-gold);
+            position: sticky; top: 0; z-index: 1000; gap: 20px;
         }
 
-        .nav-logo { color: var(--gold); font-size: 22px; font-weight: 800; letter-spacing: 2px; margin-right: 40px; }
-        .nav-links a { color: #ccc; text-decoration: none; margin-right: 25px; font-size: 13px; font-weight: 500; cursor: pointer; transition: 0.3s; }
+        .nav-logo { color: var(--gold); font-size: 24px; font-weight: 800; letter-spacing: 3px; font-family: 'Cinzel', serif, sans-serif; white-space: nowrap; }
+        .nav-links { display: flex; gap: 20px; flex-shrink: 0; }
+        .nav-links a { color: #ccc; text-decoration: none; font-size: 12px; font-weight: 600; letter-spacing: 1.5px; cursor: pointer; transition: 0.3s; text-transform: uppercase; }
         .nav-links a:hover { color: var(--gold); }
+
+        /* ENLARGED SEARCH BAR */
+        .search-wrapper {
+            flex-grow: 1;
+            max-width: 550px;
+            margin: 0 15px;
+        }
+        .search-wrapper input {
+            width: 100%;
+            margin: 0;
+            border-radius: 30px;
+            padding: 12px 24px;
+            font-size: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1.5px solid var(--border-gold);
+            color: #fff;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+        }
+        .search-wrapper input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.35);
+        }
 
         /* HERO SECTION */
         .hero-banner {
-            width: 100%; height: 320px; 
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('per.jpg');
+            width: 100%; height: 340px; 
+            background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('per.jpg');
             background-size: cover; background-position: center;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            border-radius: 20px; margin-bottom: 40px; padding: 0 20px; box-sizing: border-box;
+            border-radius: 16px; margin-bottom: 40px; padding: 0 20px; box-sizing: border-box;
+            border: 1px solid var(--border-gold);
         }
         .store-quote {
-            font-style: italic; font-size: 1.6rem; color: var(--gold);
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.8); text-align: center;
-            max-width: 800px; line-height: 1.4;
+            font-style: italic; font-size: 1.8rem; color: var(--gold-light);
+            text-shadow: 0 4px 15px rgba(0,0,0,0.9); text-align: center;
+            max-width: 850px; line-height: 1.4; font-weight: 300;
         }
 
         /* AUTHENTICATION & OVERLAYS */
         .auth-screen, .checkout-overlay {
-            position: fixed; inset: 0; background: radial-gradient(circle at center, rgba(0,0,0,0.4), var(--dark-bg)), url('per.jpg');
+            position: fixed; inset: 0; background: radial-gradient(circle at center, rgba(0,0,0,0.6), var(--dark-bg)), url('per.jpg');
             background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; z-index: 3000;
         }
         
         .auth-card, .checkout-card {
-            background: rgba(10, 30, 25, 0.95); backdrop-filter: blur(25px);
-            padding: 40px; border-radius: 20px; border: 1px solid rgba(212, 175, 55, 0.2);
-            width: 440px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+            background: rgba(8, 24, 20, 0.95); backdrop-filter: blur(30px);
+            padding: 40px; border-radius: 20px; border: 1px solid var(--border-gold);
+            width: 440px; text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.9);
             max-height: 90vh; overflow-y: auto;
         }
 
         /* GRID & CARDS */
-        .page-content { display: none; padding: 40px 60px; animation: fadeIn 0.6s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .page-content { display: none; padding: 40px 60px; animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 30px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 30px; }
         .card { 
-            background: var(--card-bg); border: 1px solid rgba(255,255,255,0.05); border-radius: 15px; padding: 20px; 
-            text-align: center; transition: var(--transition);
+            background: var(--card-bg); border: 1px solid var(--border-gold); border-radius: 16px; padding: 24px; 
+            text-align: center; transition: var(--transition); display: flex; flex-direction: column; justify-content: space-between;
         }
-        .card:hover { transform: translateY(-5px); border-color: var(--gold); }
-        .card img { width: 100%; height: 220px; object-fit: contain; margin-bottom: 15px; }
+        .card:hover { transform: translateY(-7px); border-color: var(--gold); box-shadow: 0 15px 35px rgba(0,0,0,0.5); }
+        .card img { width: 100%; height: 210px; object-fit: contain; margin-bottom: 15px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5)); }
 
         /* PROFESSIONAL ORDERS UI */
         .order-container { max-width: 900px; margin: 0 auto; }
         .order-item {
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(212, 175, 55, 0.1);
-            padding: 25px; border-radius: 15px; margin-bottom: 20px;
+            background: rgba(255,255,255,0.02); border: 1px solid var(--border-gold);
+            padding: 25px; border-radius: 16px; margin-bottom: 20px;
             display: flex; justify-content: space-between; align-items: center;
             transition: 0.3s;
         }
-        .order-item:hover { border-color: var(--gold); background: rgba(255,255,255,0.06); }
+        .order-item:hover { border-color: var(--gold); background: rgba(255,255,255,0.04); }
         
         .status-badge {
-            padding: 6px 14px; border-radius: 20px; font-size: 11px; font-weight: bold;
-            text-transform: uppercase; letter-spacing: 1px;
+            padding: 6px 14px; border-radius: 20px; font-size: 10px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 1.5px;
             background: var(--gold); color: black;
         }
         .status-processing { background: var(--accent-blue); color: white; }
         
-        /* UI ELEMENTS */
+        /* FORM CONTROLS */
         input, textarea, select { 
-            width: 100%; padding: 12px; margin: 8px 0; 
-            background: rgba(0,0,0,0.5); border: 1px solid rgba(212, 175, 55, 0.4); 
+            width: 100%; padding: 14px; margin: 8px 0; 
+            background: rgba(0,0,0,0.6); border: 1px solid var(--border-gold); 
             color: white; border-radius: 8px; outline: none; box-sizing: border-box;
+            font-size: 13px; transition: 0.3s;
+        }
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--gold); box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
         }
         button { 
-            background: var(--gold); color: black; border: none; padding: 12px; 
-            font-weight: bold; cursor: pointer; width: 100%; border-radius: 8px; 
-            transition: 0.3s; margin-top: 10px; text-transform: uppercase;
+            background: var(--gold); color: #000; border: none; padding: 14px; 
+            font-weight: 700; cursor: pointer; width: 100%; border-radius: 8px; 
+            transition: 0.3s; margin-top: 10px; text-transform: uppercase; letter-spacing: 1.5px; font-size: 11px;
         }
+        button:hover { background: var(--gold-light); transform: translateY(-1px); }
 
         #cart-sidebar {
-            position: fixed; right: -450px; top: 0; width: 350px; height: 100%;
-            background: rgba(5, 15, 13, 0.98); border-left: 1px solid var(--gold); 
-            padding: 30px; transition: 0.4s ease-in-out; z-index: 2500; box-sizing: border-box;
+            position: fixed; right: -450px; top: 0; width: 380px; height: 100%;
+            background: rgba(4, 12, 10, 0.98); border-left: 1px solid var(--border-gold); 
+            padding: 30px; transition: 0.4s ease-in-out; z-index: 2500; box-sizing: border-box; backdrop-filter: blur(20px);
         }
         .hidden { display: none !important; }
-        .link-btn { cursor: pointer; color: var(--gold); text-decoration: underline; font-size: 13px; }
+        .link-btn { cursor: pointer; color: var(--gold); text-decoration: underline; font-size: 12px; letter-spacing: 0.5px; }
         
-        .theme-box { position: fixed; bottom: 20px; left: 20px; background: rgba(0,0,0,0.8); padding: 10px; border-radius: 30px; border: 1px solid var(--gold); z-index: 4000; display: flex; gap: 10px; }
-        .dot { width: 20px; height: 20px; border-radius: 50%; cursor: pointer; border: 1px solid white; }
+        .theme-box { position: fixed; bottom: 20px; left: 20px; background: rgba(0,0,0,0.85); padding: 8px 12px; border-radius: 30px; border: 1px solid var(--border-gold); z-index: 4000; display: flex; gap: 10px; backdrop-filter: blur(10px); }
+        .dot { width: 18px; height: 18px; border-radius: 50%; cursor: pointer; border: 1px solid rgba(255,255,255,0.4); transition: 0.2s; }
+        .dot:hover { transform: scale(1.2); }
 
-        /* CANCEL BUTTON STYLE */
         .cancel-item {
-            color: #ff4d4d;
-            background: transparent;
-            border: none;
-            width: auto;
-            padding: 0 5px;
-            margin: 0;
-            font-size: 18px;
-            cursor: pointer;
+            color: #ff5252; background: transparent; border: none; width: auto;
+            padding: 0 5px; margin: 0; font-size: 18px; cursor: pointer; opacity: 0.7; transition: 0.2s;
+        }
+        .cancel-item:hover { opacity: 1; transform: scale(1.2); }
+
+        /* HEAVEN LAB BESPOKE SUITE */
+        .lab-container {
+            max-width: 950px; margin: 0 auto; background: var(--card-bg);
+            border: 1px solid var(--border-gold); border-radius: 20px;
+            padding: 45px; box-sizing: border-box; backdrop-filter: blur(10px);
+        }
+        .lab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 20px; }
+        .lab-group { text-align: left; }
+        .lab-group label {
+            color: var(--gold-light); font-size: 12px; font-weight: 700;
+            letter-spacing: 1.5px; text-transform: uppercase; display: block; margin-bottom: 6px;
+        }
+        .lab-preview-card {
+            background: rgba(0,0,0,0.5); border: 1px solid var(--border-gold);
+            border-radius: 16px; padding: 25px; margin-top: 30px; text-align: center;
         }
 
         /* MOBILE OPTIMIZATIONS */
         @media (max-width: 768px) {
             nav { padding: 15px; flex-direction: column; height: auto; gap: 15px; }
-            .nav-logo { margin: 0; font-size: 26px; }
-            .nav-links { display: flex; justify-content: space-around; width: 100%; border-top: 1px solid rgba(212, 175, 55, 0.1); padding-top: 10px; }
-            .nav-links a { margin: 0; font-size: 12px; font-weight: 700; color: var(--gold); }
+            .nav-logo { margin: 0; font-size: 24px; }
+            .nav-links { flex-wrap: wrap; justify-content: center; gap: 12px; width: 100%; border-top: 1px solid var(--border-gold); padding-top: 12px; }
+            .nav-links a { font-size: 11px; }
+            .search-wrapper { max-width: 100%; width: 100%; margin: 5px 0; }
             .page-content { padding: 20px 15px; }
-            .hero-banner { height: 250px; border-radius: 10px; }
-            .grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-            .card img { height: 140px; }
+            .hero-banner { height: 220px; }
+            .store-quote { font-size: 1.2rem; }
+            .grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+            .card img { height: 130px; }
             #cart-sidebar { width: 100%; right: -100%; }
-            .auth-card, .checkout-card { width: 90%; padding: 25px; }
-            div[style*="flex-grow: 1"] { width: 100%; }
-            div[style*="flex-grow: 1"] input { width: 100% !important; border-radius: 25px !important; }
+            .auth-card, .checkout-card, .lab-container { width: 92%; padding: 25px; }
+            .lab-grid { grid-template-columns: 1fr; gap: 10px; }
         }
     </style>
 </head>
 <body>
 
 <div class="theme-box">
-    <div class="dot" style="background:#1a3c34" onclick="setTheme('default')"></div>
-    <div class="dot" style="background:#2c2c2c" onclick="setTheme('charcoal')"></div>
-    <div class="dot" style="background:#3d0a0a" onclick="setTheme('royal')"></div>
+    <div class="dot" style="background:#1a3c34" onclick="setTheme('default')" title="Emerald Theme"></div>
+    <div class="dot" style="background:#2c2c2c" onclick="setTheme('charcoal')" title="Charcoal Theme"></div>
+    <div class="dot" style="background:#3d0a0a" onclick="setTheme('royal')" title="Royal Theme"></div>
 </div>
 
 <div id="login-screen" class="auth-screen">
     <div class="auth-card">
-        <h1 style="color:var(--gold); margin-bottom: 5px;">PERFUME HEAVEN</h1>
-        <p style="font-size: 11px; letter-spacing: 2px; color: #888;">WESSAM MAKKAWI ONLINE STORE</p>
-        <h2>Member Login</h2>
+        <h1 style="color:var(--gold); margin-bottom: 5px; font-size: 26px; letter-spacing: 3px;">PERFUME HEAVEN</h1>
+        <p style="font-size: 10px; letter-spacing: 3px; color: #aaa; margin-bottom: 25px; text-transform: uppercase;">Haute Parfumerie & Custom Atelier</p>
+        <h2>Member Portal</h2>
         <input type="text" id="user-in" placeholder="Username (admin)">
         <input type="password" id="pass-in" placeholder="Password (admin)">
-        <button onclick="handleLogin()">SIGN IN</button>
+        <button onclick="handleLogin()">ENTER STORE</button>
         <p style="margin-top:20px;">
             <span class="link-btn" onclick="toggleAuth('forgot')">Forgot Password?</span> | 
             <span class="link-btn" onclick="toggleAuth('register')">Create Account</span>
@@ -182,94 +230,173 @@
 
 <div id="register-screen" class="auth-screen hidden">
     <div class="auth-card">
-        <h2>Join the Online Store</h2>
-        <input type="text" placeholder="Create Username">
+        <h2 style="color: var(--gold);">Client Registration</h2>
+        <input type="text" placeholder="Full Name">
         <input type="email" placeholder="Email Address">
         <input type="password" placeholder="Create Password">
-        <button onclick="toggleAuth('login')">REGISTER</button>
-        <p style="margin-top:20px;"><span class="link-btn" onclick="toggleAuth('login')">Back to Login</span></p>
+        <button onclick="toggleAuth('login')">REGISTER ACCOUNT</button>
+        <p style="margin-top:20px;"><span class="link-btn" onclick="toggleAuth('login')">Return to Login</span></p>
     </div>
 </div>
 
 <div id="forgot-screen" class="auth-screen hidden">
     <div class="auth-card">
-        <h2>Recover Password</h2>
-        <input type="email" placeholder="Enter your registered email">
-        <button onclick="alert('Reset link sent!'); toggleAuth('login')">SEND LINK</button>
-        <p style="margin-top:20px;"><span class="link-btn" onclick="toggleAuth('login')">Back to Login</span></p>
+        <h2 style="color: var(--gold);">Password Recovery</h2>
+        <input type="email" placeholder="Registered Email Address">
+        <button onclick="alert('Password reset instructions have been emailed.'); toggleAuth('login')">SEND LINK</button>
+        <p style="margin-top:20px;"><span class="link-btn" onclick="toggleAuth('login')">Return to Login</span></p>
     </div>
 </div>
 
 <nav id="main-nav">
-    <div class="nav-logo">PH</div>
+    <div class="nav-logo">PARFUM HEAVEN</div>
     <div class="nav-links">
-        <a onclick="showPage('home')">HOME</a>
-        <a onclick="showPage('about')">ABOUT</a>
-        <a onclick="showPage('contact')">CONTACT</a>
+        <a onclick="showPage('home')">COLLECTION</a>
+        <a onclick="showPage('lab')" style="color: var(--gold-light); font-weight: bold;">HEAVEN LAB</a>
+        <a onclick="showPage('about')">THE MAISON</a>
+        <a onclick="showPage('contact')">CONCIERGE</a>
         <a onclick="showPage('orders')">ORDERS</a>
     </div>
-    <div style="flex-grow: 1; text-align: center;">
-        <input type="text" style="width: 60%; margin:0; border-radius: 20px;" placeholder="Search fragrance..." onkeyup="search(this.value)">
+    
+    <div class="search-wrapper">
+        <input type="text" placeholder="Search luxury fragrances..." onkeyup="search(this.value)">
     </div>
-    <div style="display:flex; align-items:center; gap: 15px;">
-        <div style="cursor:pointer; position: relative; font-size: 20px;" onclick="toggleCart()">🛒 <span id="cart-count" style="background:var(--gold); color:black; font-size:10px; padding:2px 6px; border-radius:50%; position:absolute; top:-5px; right:-10px;">0</span></div>
-        <button onclick="location.reload()" style="width: auto; background: transparent; color: #888; font-size: 12px; border:none; padding:0;">Logout</button>
+    
+    <div style="display:flex; align-items:center; gap: 20px; flex-shrink: 0;">
+        <div style="cursor:pointer; position: relative; font-size: 22px;" onclick="toggleCart()">🛒 <span id="cart-count" style="background:var(--gold); color:black; font-size:10px; font-weight: bold; padding:2px 6px; border-radius:50%; position:absolute; top:-5px; right:-10px;">0</span></div>
+        <button onclick="location.reload()" style="width: auto; background: transparent; color: #888; font-size: 11px; border:none; padding:0; letter-spacing: 1px;">Sign Out</button>
     </div>
 </nav>
 
 <div id="home-page" class="page-content">
     <div class="hero-banner">
-        <div class="store-quote">"Fragrance is like a piece of clothing, a message, a way of presenting oneself."</div>
-        <p style="color: white; margin-top: 15px; letter-spacing: 3px; font-weight: 300;">WESSAM MAKKAWI ONLINE STORE</p>
+        <div class="store-quote">"Fragrance is the invisible garment that reveals identity without speaking a single word."</div>
+        <p style="color: var(--gold); margin-top: 15px; letter-spacing: 4px; font-size: 11px; font-weight: 600; text-transform: uppercase;">HAUTE PARFUMERIE COLLECTION</p>
     </div>
-    <h2 style="letter-spacing: 2px; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 15px; text-align:center;">EXQUISITE COLLECTION</h2>
+    <h2 style="letter-spacing: 3px; border-bottom: 1px solid var(--border-gold); padding-bottom: 15px; text-align:center; font-weight: 400; font-size: 1.5rem;">CURATED FRAGRANCES</h2>
     <div id="product-grid" class="grid"></div>
 </div>
 
-<div id="about-page" class="page-content">
-    <div style="max-width: 900px; margin: 0 auto; line-height: 1.8;">
+<div id="lab-page" class="page-content">
+    <div class="lab-container">
         <div style="text-align: center; margin-bottom: 30px;">
-            <h1 style="color: var(--gold); font-size: 2.5rem; margin-bottom: 10px;">ABOUT US</h1>
-            <div style="width: 100px; height: 2px; background: var(--gold); margin: 0 auto;"></div>
+            <h1 style="color: var(--gold); font-size: 2.2rem; margin: 0; letter-spacing: 3px; font-weight: 300;">HEAVEN LAB</h1>
+            <p style="color: #aaa; font-size: 12px; letter-spacing: 2px; margin-top: 8px; text-transform: uppercase;">Bespoke Fragrance Atelier</p>
         </div>
-        <div style="background: var(--card-bg); padding: 30px; border-radius: 20px; border: 1px solid var(--gold);">
-            <h3 style="color: var(--gold);">Our Story</h3>
-            <p>Founded by <strong>Wessam Makkawi</strong>, a dedicated CIS student at the University of Jordan, Perfume Heaven was born from a passion for the intersection of olfactory art and digital precision.</p>
-            <h3 style="color: var(--gold); margin-top: 20px;">Modern Elegance</h3>
-            <p>We pride ourselves on providing a seamless technological experience, bridging the gap between traditional hospitality and global digital standards.</p>
+
+        <div class="lab-grid">
+            <div class="lab-group" style="grid-column: span 2;">
+                <label>1. Custom Fragrance Title</label>
+                <input type="text" id="custom-name" placeholder="e.g., Royal Amber Nocturne" oninput="updateLabSummary()">
+            </div>
+
+            <div class="lab-group">
+                <label>2. Top Notes (Initial Impression)</label>
+                <select id="top-note" onchange="updateLabSummary()">
+                    <option value="Italian Bergamot & Pink Pepper">Italian Bergamot & Pink Pepper</option>
+                    <option value="Calabrian Lemon & Cardamom">Calabrian Lemon & Cardamom</option>
+                    <option value="Crisp Green Apple & Pear">Crisp Green Apple & Pear</option>
+                    <option value="Saffron & Mandarin Zest">Saffron & Mandarin Zest</option>
+                    <option value="French Lavender & Mint">French Lavender & Wild Mint</option>
+                </select>
+            </div>
+
+            <div class="lab-group">
+                <label>3. Heart Notes (Core Character)</label>
+                <select id="heart-note" onchange="updateLabSummary()">
+                    <option value="Damascus Rose & Iris">Damascus Rose & Florentine Iris</option>
+                    <option value="Smokey Jasmine & Neroli">Smokey Jasmine & Neroli</option>
+                    <option value="Ceylon Cinnamon & Nutmeg">Ceylon Cinnamon & Nutmeg</option>
+                    <option value="Marine Breeze & Sea Salt">Marine Breeze & Sea Salt</option>
+                    <option value="Black Tea & Cashmere Wood">Black Tea & Cashmere Wood</option>
+                </select>
+            </div>
+
+            <div class="lab-group">
+                <label>4. Base Notes (Lasting Trail)</label>
+                <select id="base-note" onchange="updateLabSummary()">
+                    <option value="Royal Oud & White Amber">Royal Oud & White Amber</option>
+                    <option value="Madagascar Vanilla & Tonka">Madagascar Vanilla & Tonka Bean</option>
+                    <option value="Haitian Vetiver & Cedarwood">Haitian Vetiver & Cedarwood</option>
+                    <option value="Rich Leather & Patchouli">Rich Leather & Oakmoss</option>
+                    <option value="Frankincense & Pure Musk">Omani Frankincense & Pure Musk</option>
+                </select>
+            </div>
+
+            <div class="lab-group">
+                <label>5. Concentration Level</label>
+                <select id="concentration" onchange="updateLabSummary()">
+                    <option value="Eau de Parfum (20%)" data-factor="1">Eau de Parfum (20% Concentration)</option>
+                    <option value="Extrait de Parfum (30%)" data-factor="1.25">Extrait de Parfum (30% Concentration)</option>
+                    <option value="Pure Elixir Oil (100%)" data-factor="1.5">Pure Elixir Attar Oil</option>
+                </select>
+            </div>
+
+            <div class="lab-group" style="grid-column: span 2;">
+                <label>6. Bottle Size</label>
+                <select id="bottle-size" onchange="updateLabSummary()">
+                    <option value="50">50 ml (Classic Flacon)</option>
+                    <option value="100" selected>100 ml (Grand Flacon)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="lab-preview-card">
+            <p style="margin: 0; color: #888; font-size: 11px; letter-spacing: 2px; text-transform: uppercase;">Formula Formulation Summary</p>
+            <h3 id="lab-summary-title" style="color: var(--gold-light); margin: 10px 0 5px 0; font-weight: 400;">Custom Blend</h3>
+            <p id="lab-summary-notes" style="color: #ccc; font-size: 12px; margin-bottom: 20px; font-style: italic;">Select notes above to preview olfactory profile.</p>
+            <p style="margin: 0; color: #aaa; font-size: 13px;">Creation Fee:</p>
+            <h2 style="color: var(--gold); margin: 5px 0 20px 0; font-size: 2rem;"><span id="lab-price">120</span> JOD</h2>
+            <button onclick="addCustomPerfumeToCart()">ADD BESPOKE BLEND TO BAG</button>
+        </div>
+    </div>
+</div>
+
+<div id="about-page" class="page-content">
+    <div style="max-width: 850px; margin: 0 auto; line-height: 1.8;">
+        <div style="text-align: center; margin-bottom: 30px;">
+            <h1 style="color: var(--gold); font-size: 2.2rem; margin-bottom: 10px; font-weight: 300; letter-spacing: 3px;">THE MAISON</h1>
+            <div style="width: 80px; height: 1px; background: var(--gold); margin: 0 auto;"></div>
+        </div>
+        <div style="background: var(--card-bg); padding: 40px; border-radius: 20px; border: 1px solid var(--border-gold);">
+            <h3 style="color: var(--gold-light); font-weight: 400; letter-spacing: 1px;">Our Philosophy</h3>
+            <p style="color: #ccc;">Perfume Heaven is built upon the art of master formulation and digital precision. We bridge classic olfactory craftsmanship with modern luxury, serving connoisseurs worldwide with rare raw materials and bespoke artisanal creations.</p>
+            <h3 style="color: var(--gold-light); margin-top: 30px; font-weight: 400; letter-spacing: 1px;">Artisanal Excellence</h3>
+            <p style="color: #ccc;">Every bottle selected or created within our Heaven Lab undergoes rigorous sourcing standards, drawing pure essences from Grasse, Oman, Mysore, and Calabria.</p>
         </div>
     </div>
 </div>
 
 <div id="contact-page" class="page-content">
-    <div style="max-width: 600px; margin: 0 auto;">
+    <div style="max-width: 650px; margin: 0 auto;">
         <div style="text-align: center; margin-bottom: 30px;">
-            <h2 style="color: var(--gold); letter-spacing: 2px;">GET IN TOUCH</h2>
+            <h2 style="color: var(--gold); letter-spacing: 3px; font-weight: 300;">CONCIERGE DESK</h2>
         </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
-            <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 15px; border: 1px solid rgba(212,175,55,0.1); text-align:center;">
-                <p style="color: var(--gold); font-size: 11px; text-transform: uppercase;">Call Us</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px;">
+            <div style="background: rgba(255,255,255,0.02); padding: 20px; border-radius: 16px; border: 1px solid var(--border-gold); text-align:center;">
+                <p style="color: var(--gold); font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; margin: 0 0 5px 0;">Direct Line</p>
                 <p style="margin: 0; font-weight: 500;">+962 79 127 8583</p>
             </div>
-            <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 15px; border: 1px solid rgba(212,175,55,0.1); text-align:center;">
-                <p style="color: var(--gold); font-size: 11px; text-transform: uppercase;">Location</p>
+            <div style="background: rgba(255,255,255,0.02); padding: 20px; border-radius: 16px; border: 1px solid var(--border-gold); text-align:center;">
+                <p style="color: var(--gold); font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; margin: 0 0 5px 0;">Flagship Store</p>
                 <p style="margin: 0; font-weight: 500;">Al-Jubaiha, Amman</p>
             </div>
         </div>
-        <div style="background: var(--card-bg); padding: 25px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05);">
-            <input type="text" placeholder="Your Name">
-            <textarea placeholder="How can we help you?" style="height: 100px;"></textarea>
-            <button onclick="alert('Message Sent')">SEND MESSAGE</button>
+        <div style="background: var(--card-bg); padding: 30px; border-radius: 20px; border: 1px solid var(--border-gold);">
+            <input type="text" placeholder="Full Name">
+            <input type="email" placeholder="Email Address">
+            <textarea placeholder="Inquire about bespoke orders or private consultations..." style="height: 110px;"></textarea>
+            <button onclick="alert('Your inquiry has been submitted to our concierge.')">SEND INQUIRY</button>
         </div>
     </div>
 </div>
 
 <div id="orders-page" class="page-content">
     <div class="order-container">
-        <h1 style="color: var(--gold); font-weight: 300; margin-bottom: 30px; text-align:center;">ORDER DASHBOARD</h1>
+        <h1 style="color: var(--gold); font-weight: 300; margin-bottom: 30px; text-align:center; letter-spacing: 3px;">CLIENT ORDERS</h1>
         <div id="order-history-list">
-            <div style="text-align: center; padding: 50px; opacity: 0.5;">
-                <p>No active shipments found.</p>
+            <div style="text-align: center; padding: 60px; opacity: 0.5;">
+                <p style="letter-spacing: 1px;">No active orders found in your client history.</p>
             </div>
         </div>
     </div>
@@ -277,37 +404,37 @@
 
 <div id="cart-sidebar">
     <div style="display:flex; justify-content:space-between; align-items:center;">
-        <h2 style="color: var(--gold); margin:0;">YOUR BAG</h2>
-        <span onclick="clearCart()" style="color:#ff4d4d; font-size:12px; cursor:pointer; text-decoration:underline;">CLEAR ALL</span>
+        <h2 style="color: var(--gold); margin:0; font-weight: 400; letter-spacing: 2px;">YOUR SELECTIONS</h2>
+        <span onclick="clearCart()" style="color:#ff5252; font-size:11px; cursor:pointer; text-decoration:underline; letter-spacing: 1px;">CLEAR ALL</span>
     </div>
-    <div id="cart-items-list" style="max-height: 55vh; overflow-y: auto; margin:20px 0;"></div>
-    <div style="border-top: 1px solid #333; padding-top: 15px;">
-        <h3 style="display:flex; justify-content:space-between;"><span>TOTAL:</span> <span><span id="cart-total">0</span> JOD</span></h3>
+    <div id="cart-items-list" style="max-height: 55vh; overflow-y: auto; margin:25px 0;"></div>
+    <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+        <h3 style="display:flex; justify-content:space-between; font-weight: 400;"><span>TOTAL:</span> <span><span id="cart-total">0</span> JOD</span></h3>
         <button onclick="openCheckout()">PROCEED TO CHECKOUT</button>
-        <button onclick="toggleCart()" style="background:transparent; color:white; border: 1px solid #333; margin-top:10px;">CONTINUE SHOPPING</button>
+        <button onclick="toggleCart()" style="background:transparent; color:white; border: 1px solid var(--border-gold); margin-top:10px;">CONTINUE BROWSING</button>
     </div>
 </div>
 
 <div id="checkout-overlay" class="checkout-overlay hidden">
     <div class="checkout-card">
-        <h2 style="color:var(--gold)">SECURE CHECKOUT</h2>
-        <p id="checkout-total-msg" style="font-weight: bold;"></p>
-        <input type="text" id="order-phone" placeholder="Phone Number">
-        <textarea id="order-location" placeholder="Full Delivery Address"></textarea>
+        <h2 style="color:var(--gold); font-weight: 300; letter-spacing: 2px;">SECURE CHECKOUT</h2>
+        <p id="checkout-total-msg" style="font-weight: bold; color: var(--gold-light);"></p>
+        <input type="text" id="order-phone" placeholder="Contact Telephone">
+        <textarea id="order-location" placeholder="Full Delivery Address & Special Instructions"></textarea>
         <select id="payment-method" onchange="toggleCardInputs()">
             <option value="cod">Cash on Delivery</option>
             <option value="credit">Credit / Debit Card</option>
         </select>
         <div id="credit-card-info" class="hidden">
             <input type="text" placeholder="Cardholder Name">
-            <input type="text" maxlength="16" placeholder="0000 0000 0000 0000">
+            <input type="text" maxlength="16" placeholder="Card Number (0000 0000 0000 0000)">
             <div style="display: flex; gap: 10px;">
                 <input type="text" placeholder="MM/YY">
-                <input type="password" maxlength="3" placeholder="CVV">
+                <input type="password" maxlength="4" placeholder="CVV">
             </div>
         </div>
-        <button onclick="processFinalOrder()">CONFIRM ORDER</button>
-        <button onclick="closeCheckout()" style="background:#444; color:white;">CANCEL</button>
+        <button onclick="processFinalOrder()">CONFIRM & AUTHORIZE ORDER</button>
+        <button onclick="closeCheckout()" style="background:#333; color:white; margin-top: 8px;">CANCEL</button>
     </div>
 </div>
 
@@ -317,22 +444,27 @@
         { name: "Dior Homme Intense", price: 105, img: "PER2.jpg" },
         { name: "Miss Dior EDP", price: 118, img: "PER2 (2).jpg" },
         { name: "Bleu de Chanel Parfum", price: 145, img: "download (3).jpg" },
-        { name: "JBG Eltra male", price: 85, img: "download (4).jpg" },
-        { name: "JBG ElixIr", price: 115, img: "download (5).jpg" },
-        { name: "HACIVAT NISHANE", price: 199, img: "download (6).jpg" },
+        { name: "JPG Ultra Male", price: 85, img: "download (4).jpg" },
+        { name: "JPG Le Male Elixir", price: 115, img: "download (5).jpg" },
+        { name: "Nishane Hacivat", price: 199, img: "download (6).jpg" },
         { name: "Creed Aventus", price: 210, img: "download (7).jpg" },
-        { name: "YSL Y EDP", price: 145, img: "download (8).jpg" },
-        { name: "Spicebomb", price: 94, img: "download (9).jpg" },
-        { name: "Baccarat Rouge 540", price: 160, img: "download (10).jpg" },
-        { name: "Chanel No. 5", price: 149, img: "download (11).jpg" },
-        { name: "Prada Paradoxe", price: 109, img: "download (12).jpg" },
-        { name: "Delina Exclusif", price: 260, img: "download (13).jpg" },
-        { name: "CK One Unisex", price: 50, img: "download (14).jpg" },
+        { name: "YSL Y Eau de Parfum", price: 145, img: "download (8).jpg" },
+        { name: "Viktor&Rolf Spicebomb Extreme", price: 94, img: "download (9).jpg" },
+        { name: "Maison Francis Kurkdjian Baccarat Rouge 540", price: 280, img: "download (10).jpg" },
+        { name: "Chanel No. 5 Eau de Parfum", price: 149, img: "download (11).jpg" },
+        { name: "Prada Paradoxe Intense", price: 109, img: "download (12).jpg" },
+        { name: "Parfums de Marly Delina Exclusif", price: 260, img: "download (13).jpg" },
+        { name: "CK One Unisex Classic", price: 50, img: "download (14).jpg" },
         { name: "Tom Ford Tobacco Vanille", price: 240, img: "per21.jpg" },
-        { name: "Terre D'Hermes", price: 90, img: "download (16).jpg" },
+        { name: "Terre D'Hermes Pure Parfum", price: 90, img: "download (16).jpg" },
         { name: "Yatagan by Caron", price: 100, img: "download (17).jpg" },
-        { name: "Bvlgari Man", price: 90, img: "download (18).jpg" },
-        { name: "A*Men Pure Mal", price: 75, img: "download (19).jpg" }
+        { name: "Bvlgari Man In Black", price: 90, img: "download (18).jpg" },
+        { name: "Mugler A*Men Pure Malt", price: 85, img: "download (19).jpg" },
+        { name: "Parfums de Marly Layton", price: 230, img: "download (6).jpg" },
+        { name: "Xerjoff Naxos 1861", price: 220, img: "download (7).jpg" },
+        { name: "Tom Ford Oud Wood", price: 250, img: "download (8).jpg" },
+        { name: "Amouage Interlude Man", price: 275, img: "download (9).jpg" },
+        { name: "Kilian Angels' Share", price: 210, img: "download (10).jpg" }
     ];
 
     let cart = [];
@@ -347,7 +479,8 @@
             document.getElementById('login-screen').classList.add('hidden');
             document.getElementById('main-nav').style.display = 'flex';
             showPage('home'); render(perfumes);
-        } else { alert("Login Error."); }
+            updateLabSummary();
+        } else { alert("Invalid Credentials."); }
     }
 
     function showPage(id) {
@@ -358,10 +491,10 @@
     function render(list) {
         document.getElementById('product-grid').innerHTML = list.map(p => `
             <div class="card">
-                <img src="${p.img}" onerror="this.src='https://via.placeholder.com/200'">
-                <h3>${p.name}</h3>
-                <p style="color:var(--gold); font-weight:bold;">${p.price} JOD</p>
-                <button onclick="addToCart('${p.name}', ${p.price})">ADD</button>
+                <img src="${p.img}" onerror="this.src='https://via.placeholder.com/200/0a1e19/d4af37?text=Perfume+Heaven'">
+                <h3 style="font-size:15px; margin:10px 0 5px 0; font-weight:500;">${p.name}</h3>
+                <p style="color:var(--gold-light); font-weight:bold; margin-bottom: 15px;">${p.price} JOD</p>
+                <button onclick="addToCart('${p.name}', ${p.price})">ADD TO BAG</button>
             </div>
         `).join('');
     }
@@ -377,7 +510,7 @@
     }
 
     function clearCart() {
-        if(confirm("Are you sure you want to empty your bag?")) {
+        if(confirm("Are you sure you want to empty your bag selections?")) {
             cart = [];
             updateCart();
         }
@@ -386,12 +519,12 @@
     function updateCart() {
         document.getElementById('cart-count').innerText = cart.length;
         document.getElementById('cart-items-list').innerHTML = cart.map((i, index) => `
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; font-size:14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; font-size:13px; border-bottom: 1px dashed rgba(255,255,255,0.05); padding-bottom: 8px;">
                 <div style="display:flex; align-items:center; gap:10px;">
                     <button class="cancel-item" onclick="removeFromCart(${index})">×</button>
                     <span>${i.name}</span>
                 </div>
-                <span>${i.price} JOD</span>
+                <span style="color:var(--gold); font-weight:600;">${i.price} JOD</span>
             </div>
         `).join('');
         document.getElementById('cart-total').innerText = cart.reduce((s, i) => s + i.price, 0);
@@ -407,8 +540,8 @@
     }
 
     function openCheckout() {
-        if(cart.length === 0) return;
-        document.getElementById('checkout-total-msg').innerText = "Total: " + document.getElementById('cart-total').innerText + " JOD";
+        if(cart.length === 0) { alert("Your bag is empty."); return; }
+        document.getElementById('checkout-total-msg').innerText = "Total Investment: " + document.getElementById('cart-total').innerText + " JOD";
         document.getElementById('checkout-overlay').classList.remove('hidden');
         toggleCart();
     }
@@ -421,7 +554,7 @@
     }
 
     function processFinalOrder() {
-        const orderID = "PH" + Math.floor(Math.random() * 90000 + 10000);
+        const orderID = "PH-" + Math.floor(Math.random() * 900000 + 100000);
         orders.unshift({
             id: orderID,
             total: document.getElementById('cart-total').innerText,
@@ -430,7 +563,7 @@
         });
         cart = []; updateCart();
         updateOrders(); closeCheckout();
-        alert("Order Confirmed! Tracking ID: " + orderID);
+        alert("Order Successfully Confirmed. Tracking ID: " + orderID);
         showPage('orders');
     }
 
@@ -439,11 +572,11 @@
         document.getElementById('order-history-list').innerHTML = orders.map(o => `
             <div class="order-item" style="flex-direction:column; align-items:flex-start;">
                 <div style="width:100%; display:flex; justify-content:space-between; margin-bottom:10px;">
-                    <span style="font-size: 11px; color: var(--gold);">#${o.id}</span>
-                    <span class="status-badge status-processing">Processing</span>
+                    <span style="font-size: 12px; color: var(--gold); font-weight: bold;">${o.id}</span>
+                    <span class="status-badge status-processing">Processing Formulation</span>
                 </div>
-                <div style="font-size: 18px;">${o.total} JOD</div>
-                <div style="font-size: 12px; color: #666; margin-top:5px;">${o.date} • ${o.items} Items</div>
+                <div style="font-size: 20px; font-weight: 300;">${o.total} JOD</div>
+                <div style="font-size: 12px; color: #888; margin-top:5px;">${o.date} • ${o.items} Item(s)</div>
             </div>
         `).join('');
     }
@@ -457,7 +590,34 @@
         document.getElementById(s + '-screen').classList.remove('hidden');
     }
 
-    function setTheme(t) { document.body.setAttribute('data-theme', t); }
+    /* HEAVEN LAB BESPOKE FUNCTIONS */
+    function updateLabSummary() {
+        const rawName = document.getElementById('custom-name').value.trim();
+        const title = rawName ? rawName : "Custom Bespoke Blend";
+        const top = document.getElementById('top-note').value;
+        const heart = document.getElementById('heart-note').value;
+        const base = document.getElementById('base-note').value;
+        const size = document.getElementById('bottle-size').value;
+        
+        const concSelect = document.getElementById('concentration');
+        const factor = parseFloat(concSelect.options[concSelect.selectedIndex].dataset.factor || 1);
+        
+        const basePrice = size === "50" ? 85 : 120;
+        const finalPrice = Math.round(basePrice * factor);
+
+        document.getElementById('lab-summary-title').innerText = title;
+        document.getElementById('lab-summary-notes').innerText = `${top} • ${heart} • ${base}`;
+        document.getElementById('lab-price').innerText = finalPrice;
+
+        return { title, top, heart, base, size, concentration: concSelect.value, price: finalPrice };
+    }
+
+    function addCustomPerfumeToCart() {
+        const formula = updateLabSummary();
+        const itemLabel = `🧪 ${formula.title} (${formula.size}ml - ${formula.concentration}) [${formula.top} / ${formula.heart} / ${formula.base}]`;
+        addToCart(itemLabel, formula.price);
+        alert(`"${formula.title}" has been successfully formulated and added to your bag.`);
+    }
 </script>
 </body>
 </html>
