@@ -39,6 +39,8 @@
 
         body {
             margin: 0; font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(rgba(5, 15, 13, 0.85), rgba(5, 15, 13, 0.85)), url('per.jpg');
+            background-size: cover; background-position: center; background-attachment: fixed;
             background-color: var(--dark-bg); color: var(--text-main);
             overflow-x: hidden; transition: var(--transition);
         }
@@ -126,7 +128,7 @@
         .card { 
             background: var(--card-bg); border: 1px solid var(--border-gold); border-radius: 16px; padding: 20px; 
             text-align: center; transition: var(--transition); display: flex; flex-direction: column; justify-content: space-between;
-            cursor: pointer;
+            cursor: pointer; backdrop-filter: blur(10px);
         }
         .card:hover { transform: translateY(-7px); border-color: var(--gold); box-shadow: 0 15px 35px rgba(0,0,0,0.5); }
         .card img { width: 100%; height: 200px; object-fit: contain; margin-bottom: 15px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5)); }
@@ -375,7 +377,7 @@
         <div class="store-quote">"Fragrance is the invisible garment that reveals identity without speaking a single word."</div>
         <p style="color: var(--gold); margin-top: 15px; letter-spacing: 4px; font-size: 11px; font-weight: 600; text-transform: uppercase;">HAUTE PARFUMERIE COLLECTION</p>
     </div>
-    <h2 style="letter-spacing: 3px; border-bottom: 1px solid var(--border-gold); padding-bottom: 15px; text-align:center; font-weight: 400; font-size: 1.5rem;">CURATED FRAGRANCES (25)</h2>
+    <h2 id="collection-header" style="letter-spacing: 3px; border-bottom: 1px solid var(--border-gold); padding-bottom: 15px; text-align:center; font-weight: 400; font-size: 1.5rem;">CURATED FRAGRANCES</h2>
     <div id="product-grid" class="grid"></div>
 </div>
 
@@ -573,7 +575,7 @@
 </div>
 
 <script>
-    // FULL 25-FRAGRANCE LUXURY COLLECTION UNTOUCHED WITH EMOJIS
+    // CURATED LUXURY FRAGRANCE COLLECTION (21 ITEMS AFTER REMOVALS)
     const perfumes = [
         { id: 0, name: "Azzaro Wanted By Night", price: 88, img: "download.jpg", desc: "A spicy-woody oriental fragrance created for the modern night-owl, blending warm cinnamon, red cedar, and tobacco.", top: "🪵 Cinnamon, 🍊 Mandarin Orange, 🪻 Lavender, 🍋 Lemon", heart: "🌲 Red Cedar, 💨 Incense, 🧂 Cumin, 🍎 Fruity Notes", base: "🍂 Tobacco, 🍦 Vanilla, 🪵 Cedar, 👜 Leather, 🌲 Cypress" },
         { id: 1, name: "Spicebomb Extreme", price: 94, img: "download (9).jpg", desc: "An explosive composition of fiery spices, rich bourbon vanilla, and dark tobacco nuances.", top: "🌶️ Black Pepper, 🌶️ Pink Pepper", heart: "🪵 Cinnamon, 🌾 Saffron, 🧂 Caraway", base: "🍂 Tobacco, 🥃 Bourbon Vanilla, 🔮 Amber" },
@@ -585,8 +587,6 @@
         { id: 7, name: "Creed Aventus", price: 210, img: "download (7).jpg", desc: "Sensual, audacious, and contemporary, this fragrance combines inviting fruity top notes with an iconic dry, woody base.", top: "🍋 Bergamot, 🫐 Blackcurrant Leaves, 🍏 Apple, 🍍 Pineapple", heart: "🫐 Pink Berries, 🪵 Birch, 🌿 Patchouli, 🌸 Jasmine", base: "🪵 Musk, 🌿 Oakmoss, 🌊 Ambergris, 🍦 Vanilla" },
         { id: 8, name: "YSL La Nuit De L'Homme", price: 105, img: "download (8).jpg", desc: "A story of seduction, intensity, and bold sensuality. A dark, powerful, and mysterious fragrance.", top: "🧂 Cardamom", heart: "🪻 Lavender, 🪵 Virginia Cedar, 🍋 Bergamot", base: "🌾 Vetiver, 🧂 Caraway" },
         { id: 9, name: "Baccarat Rouge 540", price: 280, img: "download (10).jpg", desc: "A luminous and sophisticated fragrance that lays on the skin like an amber, floral, and woody breeze.", top: "🌸 Jasmine, 🌾 Saffron", heart: "🪵 Amberwood, 🌊 Ambergris", base: "🌲 Fir Resin, 🪵 Cedar" },
-        { id: 10, name: "Tom Ford Oud Wood", price: 245, img: "download (1).jpg", desc: "A masterfully crafted composition of rare oud wood, rosewood, cardamom, and sensual amber.", top: "🪵 Rosewood, 🧂 Cardamom, 🌶️ Chinese Pepper", heart: "👑 Oud Wood, 🪵 Sandalwood, 🌾 Vetiver", base: "🫘 Tonka Bean, 🍦 Vanilla, 🔮 Amber" },
-        { id: 11, name: "Bleu de Chanel Parfum", price: 155, img: "download (2).jpg", desc: "An intensely masculine aromatic-woody fragrance that opens with captivating freshness and settles into warm sandalwood.", top: "🍋 Lemon Zest, 🍋 Bergamot, 🌿 Mint, 🌿 Artemisia", heart: "🪻 Lavender, 🍍 Pineapple, 🌺 Geranium, 🍃 Green Notes", base: "🪵 Sandalwood, 🪵 Cedar, 🪵 Amberwood, 🧪 Iso E Super, 🫘 Tonka Bean" },
         { id: 12, name: "Dior Homme Intense", price: 135, img: "download (3).jpg", desc: "An intense powdery floral-woody creation centered around sophisticated Tuscan iris and warm ambrette.", top: "🪻 Tuscan Iris, 🪻 Lavender", heart: "🌾 Ecuadorian Ambrette, 🍐 Pear", base: "🪵 Virginia Cedar, 🌾 Vetiver" },
         { id: 13, name: "Viktor&Rolf Spicebomb Night Vision", price: 98, img: "download (4).jpg", desc: "An explosive contrast of green freshness and dark spices designed for nighttime intensity.", top: "🍏 Green Apple, 🧂 Cardamom, 🍊 Green Mandarin, 🍋 Grapefruit", heart: "🌿 Clary Sage, 🌶️ Black Pepper, 🪵 Clove, 🌰 Nutmeg", base: "🥜 Pistachio, 🫘 Tonka Bean, 🪵 Cedarwood" },
         { id: 14, name: "Versace Eros EDP", price: 92, img: "PER2.jpg", desc: "A vibrant and glowing fragrance inspired by Greek mythology, radiating passion and power.", top: "🌿 Mint, 🍏 Candied Apple, 🍋 Lemon, 🍊 Mandarin Orange", heart: "🔮 Ambrosan, 🌺 Geranium, 🌿 Clary Sage", base: "🍦 Vanilla, 🪵 Cedarwood, 🌾 Vetiver, 🌿 Patchouli" },
@@ -597,9 +597,7 @@
         { id: 19, name: "Xerjoff Naxos", price: 250, img: "download (8).jpg", desc: "Celebrates Sicily's deep Mediterranean roots with sweet honey, tobacco, and citrus accords.", top: "🪻 Lavender, 🍋 Bergamot, 🍋 Lemon", heart: "🍯 Honey, 🪵 Cinnamon, 🪵 Cashmeran, 🌸 Jasmine", base: "🍂 Tobacco Leaf, 🍦 Vanilla, 🫘 Tonka Bean" },
         { id: 20, name: "Nishane Hacivat", price: 220, img: "download (9).jpg", desc: "A tribute to elegance, kindness, and art with bright oakmoss, pineapple, and woody notes.", top: "🍍 Pineapple, 🍋 Grapefruit, 🍋 Bergamot", heart: "🪵 Cedar, 🌿 Patchouli, 🌸 Jasmine", base: "🌿 Oakmoss, 🪵 Woody Notes" },
         { id: 21, name: "Roja Elysium Pour Homme", price: 290, img: "download (10).jpg", desc: "An ultra-fresh citrus accord fused with an intriguing dry-down of vetiver, ambergris, and leather.", top: "🍋 Grapefruit, 🍋 Lemon, 🍋 Bergamot, 🟢 Lime, 🌿 Thyme, 🌿 Artemisia", heart: "🌾 Vetiver, 🫐 Juniper Berries, 🫐 Blackcurrant, 🍏 Apple, 🪵 Cedar", base: "🌊 Ambergris, 👜 Leather, 🍦 Vanilla, 🪵 Benzoin, 🔮 Labdanum" },
-        { id: 22, name: "Maison Margiela By The Fireplace", price: 110, img: "per21.jpg", desc: "Evokes cozy evenings by a crackling fire with roasted chestnuts, smoky wood, and sweet vanilla.", top: "🪵 Cloves, 🌶️ Pink Pepper, 🍊 Orange Blossom", heart: "🌰 Chestnut, 🌳 Guaiac Wood, 🫐 Juniper", base: "🍦 Vanilla, 🪵 Peru Balsam, 🪵 Cashmeran" },
-        { id: 23, name: "Guerlain L'Homme Ideal EDP", price: 118, img: "download (1).jpg", desc: "An enchanting blend of captivating almond, fiery warm spices, and oriental leather.", top: "🌰 Almond, 🌶️ Spices, 🪻 Lavender, 🍋 Bergamot, 🌿 Rosemary", heart: "🍒 Cherry, 🍦 Vanilla, 💨 Incense, 🌹 Rose", base: "👜 Leather, 🫘 Tonka Bean, 🪵 Sandalwood" },
-        { id: 24, name: "Givenchy Reserve Privee", price: 122, img: "download (2).jpg", desc: "An intoxicating whisky-inspired fragrance featuring powdery iris and amber wood notes.", top: "🍋 Bergamot", heart: "🪻 Iris, 🌰 Chestnut", base: "🥃 Whisky, 🔮 Amber, 🪵 Woody Notes" }
+        { id: 22, name: "Maison Margiela By The Fireplace", price: 110, img: "per21.jpg", desc: "Evokes cozy evenings by a crackling fire with roasted chestnuts, smoky wood, and sweet vanilla.", top: "🪵 Cloves, 🌶️ Pink Pepper, 🍊 Orange Blossom", heart: "🌰 Chestnut, 🌳 Guaiac Wood, 🫐 Juniper", base: "🍦 Vanilla, 🪵 Peru Balsam, 🪵 Cashmeran" }
     ];
 
     let cart = [];
@@ -625,6 +623,7 @@
     }
 
     function render(list) {
+        document.getElementById('collection-header').innerText = `CURATED FRAGRANCES (${list.length})`;
         document.getElementById('product-grid').innerHTML = list.map(p => `
             <div class="card" onclick="openDetailModal(${p.id})">
                 <img src="${p.img}" onerror="this.src='https://via.placeholder.com/200/0a1e19/d4af37?text=Perfume+Heaven'" alt="${p.name}">
