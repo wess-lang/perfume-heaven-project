@@ -56,7 +56,7 @@
         .nav-links a { color: #ccc; text-decoration: none; font-size: 12px; font-weight: 600; letter-spacing: 1.5px; cursor: pointer; transition: 0.3s; text-transform: uppercase; }
         .nav-links a:hover { color: var(--gold); }
 
-        /* ENLARGED SEARCH BAR */
+        /* SEARCH BAR */
         .search-wrapper {
             flex-grow: 1;
             max-width: 550px;
@@ -94,31 +94,65 @@
         }
 
         /* AUTHENTICATION & OVERLAYS */
-        .auth-screen, .checkout-overlay {
-            position: fixed; inset: 0; background: radial-gradient(circle at center, rgba(0,0,0,0.6), var(--dark-bg)), url('per.jpg');
-            background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; z-index: 3000;
+        .auth-screen, .checkout-overlay, .modal-overlay {
+            position: fixed; inset: 0; background: radial-gradient(circle at center, rgba(0,0,0,0.7), var(--dark-bg));
+            backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; z-index: 3000;
         }
         
-        .auth-card, .checkout-card {
+        .auth-card, .checkout-card, .modal-card {
             background: rgba(8, 24, 20, 0.95); backdrop-filter: blur(30px);
             padding: 40px; border-radius: 20px; border: 1px solid var(--border-gold);
             width: 440px; text-align: center; box-shadow: 0 30px 60px rgba(0,0,0,0.9);
-            max-height: 90vh; overflow-y: auto;
+            max-height: 90vh; overflow-y: auto; position: relative;
         }
+
+        .modal-card {
+            width: 520px;
+            text-align: left;
+        }
+
+        .close-modal {
+            position: absolute; top: 15px; right: 20px;
+            font-size: 24px; color: var(--gold); cursor: pointer;
+            transition: 0.2s;
+        }
+        .close-modal:hover { transform: scale(1.2); }
 
         /* GRID & CARDS */
         .page-content { display: none; padding: 40px 60px; animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 30px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 25px; }
         .card { 
-            background: var(--card-bg); border: 1px solid var(--border-gold); border-radius: 16px; padding: 24px; 
+            background: var(--card-bg); border: 1px solid var(--border-gold); border-radius: 16px; padding: 20px; 
             text-align: center; transition: var(--transition); display: flex; flex-direction: column; justify-content: space-between;
+            cursor: pointer;
         }
         .card:hover { transform: translateY(-7px); border-color: var(--gold); box-shadow: 0 15px 35px rgba(0,0,0,0.5); }
-        .card img { width: 100%; height: 210px; object-fit: contain; margin-bottom: 15px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5)); }
+        .card img { width: 100%; height: 200px; object-fit: contain; margin-bottom: 15px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5)); }
 
-        /* PROFESSIONAL ORDERS UI */
+        /* DETAILS MODAL STYLING */
+        .notes-list {
+            margin: 15px 0;
+            padding: 0;
+            list-style: none;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        .notes-list li {
+            margin-bottom: 6px;
+            padding-left: 15px;
+            position: relative;
+        }
+        .notes-list li::before {
+            content: "•";
+            color: var(--gold);
+            position: absolute;
+            left: 0;
+            font-size: 16px;
+        }
+
+        /* ORDERS UI */
         .order-container { max-width: 900px; margin: 0 auto; }
         .order-item {
             background: rgba(255,255,255,0.02); border: 1px solid var(--border-gold);
@@ -170,24 +204,72 @@
         }
         .cancel-item:hover { opacity: 1; transform: scale(1.2); }
 
-        /* HEAVEN LAB BESPOKE SUITE */
-        .lab-container {
-            max-width: 950px; margin: 0 auto; background: var(--card-bg);
-            border: 1px solid var(--border-gold); border-radius: 20px;
-            padding: 45px; box-sizing: border-box; backdrop-filter: blur(10px);
+        /* MODERN HEAVEN LAB ATELIER STYLING */
+        .modern-lab-wrapper {
+            max-width: 1200px; margin: 0 auto;
+            display: grid; grid-template-columns: 1.25fr 0.75fr; gap: 30px; align-items: start;
         }
-        .lab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 20px; }
-        .lab-group { text-align: left; }
-        .lab-group label {
+        .modern-lab-controls {
+            display: flex; flex-direction: column; gap: 24px;
+        }
+        .lab-card-panel {
+            background: rgba(10, 25, 20, 0.6); border: 1px solid var(--border-gold);
+            backdrop-filter: blur(20px); border-radius: 20px; padding: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4); transition: var(--transition);
+        }
+        .lab-card-panel:hover {
+            border-color: rgba(212, 175, 55, 0.4);
+        }
+        .modern-step-header {
+            display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;
+        }
+        .modern-step-title {
             color: var(--gold-light); font-size: 12px; font-weight: 700;
-            letter-spacing: 1.5px; text-transform: uppercase; display: block; margin-bottom: 6px;
+            letter-spacing: 2px; text-transform: uppercase; display: flex; align-items: center; gap: 10px;
         }
-        .lab-preview-card {
-            background: rgba(0,0,0,0.5); border: 1px solid var(--border-gold);
-            border-radius: 16px; padding: 25px; margin-top: 30px; text-align: center;
+        .modern-step-badge {
+            background: linear-gradient(135deg, var(--gold), #b38728); color: #000;
+            width: 24px; height: 24px; border-radius: 8px; display: flex;
+            align-items: center; justify-content: center; font-size: 11px; font-weight: 800;
+        }
+        .modern-chip-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px;
+        }
+        .note-chip {
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 14px; border-radius: 12px; cursor: pointer; transition: all 0.3s ease;
+            display: flex; flex-direction: column; gap: 4px; text-align: left;
+        }
+        .note-chip:hover {
+            background: rgba(212, 175, 55, 0.1); border-color: var(--gold); transform: translateY(-2px);
+        }
+        .note-chip.active {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.25), rgba(0, 0, 0, 0.8));
+            border-color: var(--gold); box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+        .chip-name { font-size: 12px; font-weight: 600; color: #fff; display: flex; align-items: center; gap: 6px; }
+        .chip-desc { font-size: 10px; color: #888; letter-spacing: 0.5px; }
+
+        /* MODERN BOTTLE DISPLAY */
+        .modern-lab-preview {
+            position: sticky; top: 100px;
+            background: rgba(6, 18, 15, 0.8); border: 1px solid var(--border-gold);
+            backdrop-filter: blur(25px); border-radius: 24px; padding: 30px;
+            text-align: center; box-shadow: 0 25px 60px rgba(0,0,0,0.7);
+        }
+        .preview-glow-aura {
+            position: absolute; top: 20%; left: 50%; transform: translate(-50%, -50%);
+            width: 180px; height: 180px; border-radius: 50%;
+            background: radial-gradient(circle, var(--gold) 0%, transparent 70%);
+            opacity: 0.15; filter: blur(30px); pointer-events: none; transition: all 0.8s ease;
         }
 
         /* MOBILE OPTIMIZATIONS */
+        @media (max-width: 900px) {
+            .modern-lab-wrapper { grid-template-columns: 1fr; }
+            .modern-lab-preview { position: static; margin-top: 20px; }
+        }
+
         @media (max-width: 768px) {
             nav { padding: 15px; flex-direction: column; height: auto; gap: 15px; }
             .nav-logo { margin: 0; font-size: 24px; }
@@ -200,8 +282,7 @@
             .grid { grid-template-columns: 1fr 1fr; gap: 12px; }
             .card img { height: 130px; }
             #cart-sidebar { width: 100%; right: -100%; }
-            .auth-card, .checkout-card, .lab-container { width: 92%; padding: 25px; }
-            .lab-grid { grid-template-columns: 1fr; gap: 10px; }
+            .auth-card, .checkout-card, .modal-card { width: 92%; padding: 25px; }
         }
     </style>
 </head>
@@ -248,11 +329,32 @@
     </div>
 </div>
 
+<!-- FRAGRANCE DETAILS MODAL -->
+<div id="detail-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+        <span class="close-modal" onclick="closeDetailModal()">&times;</span>
+        <div style="text-align: center;">
+            <img id="modal-img" src="" style="max-height: 200px; object-fit: contain; margin-bottom: 15px;" alt="Fragrance Bottle">
+            <h2 id="modal-title" style="color: var(--gold); margin: 0; font-size: 1.5rem; font-weight: 400;"></h2>
+            <p id="modal-price" style="color: var(--gold-light); font-weight: bold; font-size: 1.2rem; margin: 5px 0 15px 0;"></p>
+        </div>
+        <p id="modal-desc" style="color: #ccc; font-size: 13px; line-height: 1.6; margin-bottom: 20px;"></p>
+        
+        <h4 style="color: var(--gold); margin: 0 0 10px 0; letter-spacing: 1px; font-size: 12px; text-transform: uppercase;">Olfactory Profile & Ingredients</h4>
+        <ul class="notes-list">
+            <li><strong>Top Notes:</strong> <span id="modal-top"></span></li>
+            <li><strong>Heart Notes:</strong> <span id="modal-heart"></span></li>
+            <li><strong>Base Notes:</strong> <span id="modal-base"></span></li>
+        </ul>
+        <button id="modal-add-btn">ADD TO BAG</button>
+    </div>
+</div>
+
 <nav id="main-nav">
     <div class="nav-logo">PARFUM HEAVEN</div>
     <div class="nav-links">
         <a onclick="showPage('home')">COLLECTION</a>
-        <a onclick="showPage('lab')" style="color: var(--gold-light); font-weight: bold;">HEAVEN LAB</a>
+        <a onclick="showPage('lab')" style="color: var(--gold-light); font-weight: bold;">✨ HEAVEN LAB</a>
         <a onclick="showPage('about')">THE MAISON</a>
         <a onclick="showPage('contact')">CONCIERGE</a>
         <a onclick="showPage('orders')">ORDERS</a>
@@ -273,81 +375,113 @@
         <div class="store-quote">"Fragrance is the invisible garment that reveals identity without speaking a single word."</div>
         <p style="color: var(--gold); margin-top: 15px; letter-spacing: 4px; font-size: 11px; font-weight: 600; text-transform: uppercase;">HAUTE PARFUMERIE COLLECTION</p>
     </div>
-    <h2 style="letter-spacing: 3px; border-bottom: 1px solid var(--border-gold); padding-bottom: 15px; text-align:center; font-weight: 400; font-size: 1.5rem;">CURATED FRAGRANCES</h2>
+    <h2 style="letter-spacing: 3px; border-bottom: 1px solid var(--border-gold); padding-bottom: 15px; text-align:center; font-weight: 400; font-size: 1.5rem;">CURATED FRAGRANCES (25)</h2>
     <div id="product-grid" class="grid"></div>
 </div>
 
+<!-- ULTRA-MODERN HEAVEN LAB STUDIO -->
 <div id="lab-page" class="page-content">
-    <div class="lab-container">
-        <div style="text-align: center; margin-bottom: 30px;">
-            <h1 style="color: var(--gold); font-size: 2.2rem; margin: 0; letter-spacing: 3px; font-weight: 300;">HEAVEN LAB</h1>
-            <p style="color: #aaa; font-size: 12px; letter-spacing: 2px; margin-top: 8px; text-transform: uppercase;">Bespoke Fragrance Atelier</p>
+    <div style="text-align: center; margin-bottom: 40px;">
+        <h1 style="color: var(--gold); font-size: 2.5rem; margin: 0; letter-spacing: 5px; font-weight: 300;">✨ HEAVEN LAB ATELIER</h1>
+        <p style="color: #aaa; font-size: 12px; letter-spacing: 3px; margin-top: 10px; text-transform: uppercase;">Interactive Bespoke Olfactory Studio</p>
+    </div>
+
+    <div class="modern-lab-wrapper">
+        <!-- CONTROLS PANEL -->
+        <div class="modern-lab-controls">
+            
+            <!-- STEP 1: IDENTITY -->
+            <div class="lab-card-panel">
+                <div class="modern-step-header">
+                    <div class="modern-step-title"><span class="modern-step-badge">1</span> Signature Identity</div>
+                </div>
+                <input type="text" id="custom-name" placeholder="Name your signature elixir (e.g., Royal Amber Elixir)" oninput="updateLabSummary()">
+            </div>
+
+            <!-- STEP 2: TOP NOTES -->
+            <div class="lab-card-panel">
+                <div class="modern-step-header">
+                    <div class="modern-step-title"><span class="modern-step-badge">2</span> Top Opening Accords</div>
+                </div>
+                <div class="modern-chip-grid" id="top-chips-grid"></div>
+            </div>
+
+            <!-- STEP 3: HEART NOTES -->
+            <div class="lab-card-panel">
+                <div class="modern-step-header">
+                    <div class="modern-step-title"><span class="modern-step-badge">3</span> Heart Signature Core</div>
+                </div>
+                <div class="modern-chip-grid" id="heart-chips-grid"></div>
+            </div>
+
+            <!-- STEP 4: BASE NOTES -->
+            <div class="lab-card-panel">
+                <div class="modern-step-header">
+                    <div class="modern-step-title"><span class="modern-step-badge">4</span> Base Foundation</div>
+                </div>
+                <div class="modern-chip-grid" id="base-chips-grid"></div>
+            </div>
+
+            <!-- STEP 5 & 6: CONCENTRATION & SIZE -->
+            <div class="lab-card-panel" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <div class="modern-step-header">
+                        <div class="modern-step-title"><span class="modern-step-badge">5</span> Concentration</div>
+                    </div>
+                    <select id="concentration" onchange="updateLabSummary()">
+                        <option value="Eau de Parfum (20%)" data-factor="1" data-intensity="70%">Eau de Parfum (20%)</option>
+                        <option value="Extrait de Parfum (30%)" data-factor="1.25" data-intensity="88%">Extrait de Parfum (30%)</option>
+                        <option value="Pure Elixir Oil" data-factor="1.5" data-intensity="100%">Pure Elixir Oil (100%)</option>
+                    </select>
+                </div>
+                <div>
+                    <div class="modern-step-header">
+                        <div class="modern-step-title"><span class="modern-step-badge">6</span> Flacon Size</div>
+                    </div>
+                    <select id="bottle-size" onchange="updateLabSummary()">
+                        <option value="50">50 ml Atelier Flacon</option>
+                        <option value="100" selected>100 ml Grand Flacon</option>
+                    </select>
+                </div>
+            </div>
+
         </div>
 
-        <div class="lab-grid">
-            <div class="lab-group" style="grid-column: span 2;">
-                <label>1. Custom Fragrance Title</label>
-                <input type="text" id="custom-name" placeholder="e.g., Royal Amber Nocturne" oninput="updateLabSummary()">
+        <!-- LIVE PREVIEW DISPLAY -->
+        <div class="modern-lab-preview">
+            <div id="preview-aura" class="preview-glow-aura"></div>
+            <p style="color: var(--gold); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; margin-top: 0;">STUDIO PREVIEW</p>
+
+            <div class="bottle-wrapper" style="position: relative; width: 120px; margin: 25px auto;">
+                <div class="bottle-cap" style="width: 42px; height: 26px; background: linear-gradient(135deg, #ffe596, #b38728); margin: 0 auto 3px auto; border-radius: 4px 4px 0 0; box-shadow: inset 0 2px 4px rgba(255,255,255,0.6), 0 4px 8px rgba(0,0,0,0.5);"></div>
+                <div class="bottle-neck" style="width: 24px; height: 12px; background: linear-gradient(90deg, #b38728, #f3e5ab, #b38728); margin: 0 auto;"></div>
+                <div id="lab-bottle" class="bottle-graphic" style="width: 120px; height: 180px; margin: 0 auto; border: 3px solid rgba(255, 255, 255, 0.4); border-radius: 14px 14px 28px 28px; position: relative; display: flex; flex-direction: column; justify-content: flex-end; overflow: hidden; background: rgba(255,255,255,0.03); box-shadow: inset 0 0 15px rgba(255,255,255,0.2), 0 15px 35px rgba(0,0,0,0.8); transition: all 0.5s ease;">
+                    <div class="glass-reflection" style="position: absolute; top: 0; left: 10%; width: 20%; height: 100%; background: linear-gradient(90deg, rgba(255,255,255,0.4), rgba(255,255,255,0)); z-index: 5; pointer-events: none; border-radius: 10px;"></div>
+                    <div id="liquid-level" class="liquid-fill" style="width: 100%; height: 80%; transition: height 0.6s ease, background 0.8s ease; position: relative;"></div>
+                </div>
             </div>
 
-            <div class="lab-group">
-                <label>2. Top Notes (Initial Impression)</label>
-                <select id="top-note" onchange="updateLabSummary()">
-                    <option value="Italian Bergamot & Pink Pepper">Italian Bergamot & Pink Pepper</option>
-                    <option value="Calabrian Lemon & Cardamom">Calabrian Lemon & Cardamom</option>
-                    <option value="Crisp Green Apple & Pear">Crisp Green Apple & Pear</option>
-                    <option value="Saffron & Mandarin Zest">Saffron & Mandarin Zest</option>
-                    <option value="French Lavender & Mint">French Lavender & Wild Mint</option>
-                </select>
+            <h2 id="lab-summary-title" style="color: var(--gold-light); margin: 10px 0 5px 0; font-size: 1.4rem; font-weight: 400;">Custom Blend</h2>
+            <div id="vibe-tag" class="vibe-badge" style="display: inline-block; padding: 6px 14px; border-radius: 20px; background: rgba(212, 175, 55, 0.15); border: 1px solid var(--gold); color: var(--gold-light); font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-top: 10px;">✨ Vibrant & Fresh</div>
+
+            <div style="margin: 20px 0; text-align: left; background: rgba(0,0,0,0.5); padding: 14px; border-radius: 14px; border: 1px solid var(--border-gold);">
+                <div style="display: flex; justify-content: space-between; font-size: 11px; color: #aaa; text-transform: uppercase;">
+                    <span>Sillage & Longevity</span>
+                    <span id="intensity-val" style="color: var(--gold);">70%</span>
+                </div>
+                <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; margin-top: 8px; overflow: hidden;">
+                    <div id="intensity-fill" style="height: 100%; width: 70%; background: linear-gradient(90deg, var(--gold-light), var(--gold)); transition: width 0.4s ease;"></div>
+                </div>
             </div>
 
-            <div class="lab-group">
-                <label>3. Heart Notes (Core Character)</label>
-                <select id="heart-note" onchange="updateLabSummary()">
-                    <option value="Damascus Rose & Iris">Damascus Rose & Florentine Iris</option>
-                    <option value="Smokey Jasmine & Neroli">Smokey Jasmine & Neroli</option>
-                    <option value="Ceylon Cinnamon & Nutmeg">Ceylon Cinnamon & Nutmeg</option>
-                    <option value="Marine Breeze & Sea Salt">Marine Breeze & Sea Salt</option>
-                    <option value="Black Tea & Cashmere Wood">Black Tea & Cashmere Wood</option>
-                </select>
+            <div id="lab-summary-notes" style="color: #ccc; font-size: 12px; margin: 15px 0; line-height: 1.8; text-align: left; background: rgba(0,0,0,0.5); padding: 15px; border-radius: 14px; border: 1px solid var(--border-gold);">
             </div>
 
-            <div class="lab-group">
-                <label>4. Base Notes (Lasting Trail)</label>
-                <select id="base-note" onchange="updateLabSummary()">
-                    <option value="Royal Oud & White Amber">Royal Oud & White Amber</option>
-                    <option value="Madagascar Vanilla & Tonka">Madagascar Vanilla & Tonka Bean</option>
-                    <option value="Haitian Vetiver & Cedarwood">Haitian Vetiver & Cedarwood</option>
-                    <option value="Rich Leather & Patchouli">Rich Leather & Oakmoss</option>
-                    <option value="Frankincense & Pure Musk">Omani Frankincense & Pure Musk</option>
-                </select>
+            <div style="margin-top: 20px; border-top: 1px solid var(--border-gold); padding-top: 15px;">
+                <p style="margin: 0; color: #888; font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">Formulation Investment:</p>
+                <h1 style="color: var(--gold); margin: 5px 0 15px 0; font-size: 2.2rem;"><span id="lab-price">120</span> <span style="font-size: 1rem;">JOD</span></h1>
+                <button onclick="addCustomPerfumeToCart()" style="font-size: 12px; padding: 16px;">🧪 BOTTLE MY SIGNATURE CREATION</button>
             </div>
-
-            <div class="lab-group">
-                <label>5. Concentration Level</label>
-                <select id="concentration" onchange="updateLabSummary()">
-                    <option value="Eau de Parfum (20%)" data-factor="1">Eau de Parfum (20% Concentration)</option>
-                    <option value="Extrait de Parfum (30%)" data-factor="1.25">Extrait de Parfum (30% Concentration)</option>
-                    <option value="Pure Elixir Oil (100%)" data-factor="1.5">Pure Elixir Attar Oil</option>
-                </select>
-            </div>
-
-            <div class="lab-group" style="grid-column: span 2;">
-                <label>6. Bottle Size</label>
-                <select id="bottle-size" onchange="updateLabSummary()">
-                    <option value="50">50 ml (Classic Flacon)</option>
-                    <option value="100" selected>100 ml (Grand Flacon)</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="lab-preview-card">
-            <p style="margin: 0; color: #888; font-size: 11px; letter-spacing: 2px; text-transform: uppercase;">Formula Formulation Summary</p>
-            <h3 id="lab-summary-title" style="color: var(--gold-light); margin: 10px 0 5px 0; font-weight: 400;">Custom Blend</h3>
-            <p id="lab-summary-notes" style="color: #ccc; font-size: 12px; margin-bottom: 20px; font-style: italic;">Select notes above to preview olfactory profile.</p>
-            <p style="margin: 0; color: #aaa; font-size: 13px;">Creation Fee:</p>
-            <h2 style="color: var(--gold); margin: 5px 0 20px 0; font-size: 2rem;"><span id="lab-price">120</span> JOD</h2>
-            <button onclick="addCustomPerfumeToCart()">ADD BESPOKE BLEND TO BAG</button>
         </div>
     </div>
 </div>
@@ -439,32 +573,33 @@
 </div>
 
 <script>
+    // FULL 25-FRAGRANCE LUXURY COLLECTION UNTOUCHED WITH EMOJIS
     const perfumes = [
-        { name: "Dior Sauvage Elixir", price: 115, img: "download.jpg" },
-        { name: "Dior Homme Intense", price: 105, img: "PER2.jpg" },
-        { name: "Miss Dior EDP", price: 118, img: "PER2 (2).jpg" },
-        { name: "Bleu de Chanel Parfum", price: 145, img: "download (3).jpg" },
-        { name: "JPG Ultra Male", price: 85, img: "download (4).jpg" },
-        { name: "JPG Le Male Elixir", price: 115, img: "download (5).jpg" },
-        { name: "Nishane Hacivat", price: 199, img: "download (6).jpg" },
-        { name: "Creed Aventus", price: 210, img: "download (7).jpg" },
-        { name: "YSL Y Eau de Parfum", price: 145, img: "download (8).jpg" },
-        { name: "Viktor&Rolf Spicebomb Extreme", price: 94, img: "download (9).jpg" },
-        { name: "Maison Francis Kurkdjian Baccarat Rouge 540", price: 280, img: "download (10).jpg" },
-        { name: "Chanel No. 5 Eau de Parfum", price: 149, img: "download (11).jpg" },
-        { name: "Prada Paradoxe Intense", price: 109, img: "download (12).jpg" },
-        { name: "Parfums de Marly Delina Exclusif", price: 260, img: "download (13).jpg" },
-        { name: "CK One Unisex Classic", price: 50, img: "download (14).jpg" },
-        { name: "Tom Ford Tobacco Vanille", price: 240, img: "per21.jpg" },
-        { name: "Terre D'Hermes Pure Parfum", price: 90, img: "download (16).jpg" },
-        { name: "Yatagan by Caron", price: 100, img: "download (17).jpg" },
-        { name: "Bvlgari Man In Black", price: 90, img: "download (18).jpg" },
-        { name: "Mugler A*Men Pure Malt", price: 85, img: "download (19).jpg" },
-        { name: "Parfums de Marly Layton", price: 230, img: "download (6).jpg" },
-        { name: "Xerjoff Naxos 1861", price: 220, img: "download (7).jpg" },
-        { name: "Tom Ford Oud Wood", price: 250, img: "download (8).jpg" },
-        { name: "Amouage Interlude Man", price: 275, img: "download (9).jpg" },
-        { name: "Kilian Angels' Share", price: 210, img: "download (10).jpg" }
+        { id: 0, name: "Azzaro Wanted By Night", price: 88, img: "download.jpg", desc: "A spicy-woody oriental fragrance created for the modern night-owl, blending warm cinnamon, red cedar, and tobacco.", top: "🪵 Cinnamon, 🍊 Mandarin Orange, 🪻 Lavender, 🍋 Lemon", heart: "🌲 Red Cedar, 💨 Incense, 🧂 Cumin, 🍎 Fruity Notes", base: "🍂 Tobacco, 🍦 Vanilla, 🪵 Cedar, 👜 Leather, 🌲 Cypress" },
+        { id: 1, name: "Spicebomb Extreme", price: 94, img: "download (9).jpg", desc: "An explosive composition of fiery spices, rich bourbon vanilla, and dark tobacco nuances.", top: "🌶️ Black Pepper, 🌶️ Pink Pepper", heart: "🪵 Cinnamon, 🌾 Saffron, 🧂 Caraway", base: "🍂 Tobacco, 🥃 Bourbon Vanilla, 🔮 Amber" },
+        { id: 2, name: "Parfums de Marly Layton", price: 230, img: "download (6).jpg", desc: "A seductive oriental-floral fragrance with an intense olfactory signature, blending spiced vanilla and woods.", top: "🍏 Apple, 🪻 Lavender, 🍋 Bergamot, 🍊 Mandarin Orange", heart: "🌺 Geranium, 💜 Violet, 🌸 Jasmine", base: "🍦 Vanilla, 🧂 Cardamom, 🪵 Sandalwood, 🌶️ Pepper, 🌿 Patchouli, 🌳 Guaiac Wood" },
+        { id: 3, name: "Acqua Di Gio Profumo", price: 125, img: "PER2.jpg", desc: "An aquatic, aromatic, woody and spicy fragrance that fuses fresh sea notes with warm incense.", top: "🌊 Sea Notes, 🍋 Bergamot", heart: "🌿 Rosemary, 🍃 Sage, 🌺 Geranium", base: "💨 Incense, 🌿 Patchouli" },
+        { id: 4, name: "Dior Sauvage Elixir", price: 115, img: "download.jpg", desc: "An extraordinarily concentrated fragrance steeped in the iconic freshness of Sauvage with an intoxicating heart of spices.", top: "Grapefruit, 🪵 Cinnamon, 🧂 Cardamom, 🌰 Nutmeg", heart: "🪻 Lavender", base: "🍬 Licorice, 🔮 Amber, 🌿 Patchouli, 🌾 Vetiver" },
+        { id: 5, name: "Jean Paul Gaultier Le Male Le Parfum", price: 115, img: "download (5).jpg", desc: "A stylish intense oriental woody trail taking leadership of the Le Male range with charismatic cardamom and lavender.", top: "🧂 Cardamom", heart: "🪻 Lavender, 🪻 Iris", base: "🍦 Vanilla, 🔮 Oriental Notes, 🪵 Woodsy Notes" },
+        { id: 6, name: "Tom Ford Noir Extreme", price: 165, img: "per21.jpg", desc: "An amber-drenched, woody oriental fragrance with a tantalizing and delectable heart of Indian Kulfi.", top: "🧂 Cardamom, 🌰 Nutmeg, 🌾 Saffron, 🍊 Mandarin Orange, 🌼 Neroli", heart: "🍨 Kulfi, 🌹 Rose, 🌸 Jasmine, 🍊 Orange Blossom, 🌿 Mastique", base: "🍦 Vanilla, 🔮 Amber, 🪵 Woody Notes, 🪵 Sandalwood" },
+        { id: 7, name: "Creed Aventus", price: 210, img: "download (7).jpg", desc: "Sensual, audacious, and contemporary, this fragrance combines inviting fruity top notes with an iconic dry, woody base.", top: "🍋 Bergamot, 🫐 Blackcurrant Leaves, 🍏 Apple, 🍍 Pineapple", heart: "🫐 Pink Berries, 🪵 Birch, 🌿 Patchouli, 🌸 Jasmine", base: "🪵 Musk, 🌿 Oakmoss, 🌊 Ambergris, 🍦 Vanilla" },
+        { id: 8, name: "YSL La Nuit De L'Homme", price: 105, img: "download (8).jpg", desc: "A story of seduction, intensity, and bold sensuality. A dark, powerful, and mysterious fragrance.", top: "🧂 Cardamom", heart: "🪻 Lavender, 🪵 Virginia Cedar, 🍋 Bergamot", base: "🌾 Vetiver, 🧂 Caraway" },
+        { id: 9, name: "Baccarat Rouge 540", price: 280, img: "download (10).jpg", desc: "A luminous and sophisticated fragrance that lays on the skin like an amber, floral, and woody breeze.", top: "🌸 Jasmine, 🌾 Saffron", heart: "🪵 Amberwood, 🌊 Ambergris", base: "🌲 Fir Resin, 🪵 Cedar" },
+        { id: 10, name: "Tom Ford Oud Wood", price: 245, img: "download (1).jpg", desc: "A masterfully crafted composition of rare oud wood, rosewood, cardamom, and sensual amber.", top: "🪵 Rosewood, 🧂 Cardamom, 🌶️ Chinese Pepper", heart: "👑 Oud Wood, 🪵 Sandalwood, 🌾 Vetiver", base: "🫘 Tonka Bean, 🍦 Vanilla, 🔮 Amber" },
+        { id: 11, name: "Bleu de Chanel Parfum", price: 155, img: "download (2).jpg", desc: "An intensely masculine aromatic-woody fragrance that opens with captivating freshness and settles into warm sandalwood.", top: "🍋 Lemon Zest, 🍋 Bergamot, 🌿 Mint, 🌿 Artemisia", heart: "🪻 Lavender, 🍍 Pineapple, 🌺 Geranium, 🍃 Green Notes", base: "🪵 Sandalwood, 🪵 Cedar, 🪵 Amberwood, 🧪 Iso E Super, 🫘 Tonka Bean" },
+        { id: 12, name: "Dior Homme Intense", price: 135, img: "download (3).jpg", desc: "An intense powdery floral-woody creation centered around sophisticated Tuscan iris and warm ambrette.", top: "🪻 Tuscan Iris, 🪻 Lavender", heart: "🌾 Ecuadorian Ambrette, 🍐 Pear", base: "🪵 Virginia Cedar, 🌾 Vetiver" },
+        { id: 13, name: "Viktor&Rolf Spicebomb Night Vision", price: 98, img: "download (4).jpg", desc: "An explosive contrast of green freshness and dark spices designed for nighttime intensity.", top: "🍏 Green Apple, 🧂 Cardamom, 🍊 Green Mandarin, 🍋 Grapefruit", heart: "🌿 Clary Sage, 🌶️ Black Pepper, 🪵 Clove, 🌰 Nutmeg", base: "🥜 Pistachio, 🫘 Tonka Bean, 🪵 Cedarwood" },
+        { id: 14, name: "Versace Eros EDP", price: 92, img: "PER2.jpg", desc: "A vibrant and glowing fragrance inspired by Greek mythology, radiating passion and power.", top: "🌿 Mint, 🍏 Candied Apple, 🍋 Lemon, 🍊 Mandarin Orange", heart: "🔮 Ambrosan, 🌺 Geranium, 🌿 Clary Sage", base: "🍦 Vanilla, 🪵 Cedarwood, 🌾 Vetiver, 🌿 Patchouli" },
+        { id: 15, name: "Armani Code Parfum", price: 140, img: "download.jpg", desc: "A strong yet sensitive fragrance reinventing the iconic Armani Code signature with aromatic iris and tonka bean.", top: "🍋 Bergamot, 🍃 Bergamot Leaf", heart: "🪻 Iris, 🪻 Orris, 🌿 Clary Sage, 🧪 Aldehydes", base: "🫘 Tonka Bean, 🪵 Cedarwood" },
+        { id: 16, name: "Prada L'Homme Intense", price: 130, img: "download (5).jpg", desc: "An architectural leather-oriental fragrance focusing on rich iris, amber, and patchouli notes.", top: "🪻 Iris", heart: "🔮 Amber, 🌿 Patchouli", base: "👜 Leather, 🫘 Tonka Bean, 🪵 Sandalwood" },
+        { id: 17, name: "Kilian Angels' Share", price: 260, img: "download (6).jpg", desc: "Contains the essence of Cognac derived from the liquor to lend it a natural caramel color and luxurious warmth.", top: "🥃 Cognac", heart: "🪵 Cinnamon, 🫘 Tonka Bean, 🪵 Oak", base: "🍦 Vanilla, 🍫 Praline, 🪵 Sandalwood" },
+        { id: 18, name: "Parfums de Marly Carlisle", price: 275, img: "download (7).jpg", desc: "A wave of warmth and spices with a dark heart of green apple, nutmeg, and rich vanilla.", top: "🍏 Green Apple, 🌰 Nutmeg", heart: "🫘 Tonka Bean, 🌹 Rose, 🌼 Osmathus, 🌿 Artemisia", base: "🍦 Vanilla, 🌿 Patchouli, 🪵 Opoponax" },
+        { id: 19, name: "Xerjoff Naxos", price: 250, img: "download (8).jpg", desc: "Celebrates Sicily's deep Mediterranean roots with sweet honey, tobacco, and citrus accords.", top: "🪻 Lavender, 🍋 Bergamot, 🍋 Lemon", heart: "🍯 Honey, 🪵 Cinnamon, 🪵 Cashmeran, 🌸 Jasmine", base: "🍂 Tobacco Leaf, 🍦 Vanilla, 🫘 Tonka Bean" },
+        { id: 20, name: "Nishane Hacivat", price: 220, img: "download (9).jpg", desc: "A tribute to elegance, kindness, and art with bright oakmoss, pineapple, and woody notes.", top: "🍍 Pineapple, 🍋 Grapefruit, 🍋 Bergamot", heart: "🪵 Cedar, 🌿 Patchouli, 🌸 Jasmine", base: "🌿 Oakmoss, 🪵 Woody Notes" },
+        { id: 21, name: "Roja Elysium Pour Homme", price: 290, img: "download (10).jpg", desc: "An ultra-fresh citrus accord fused with an intriguing dry-down of vetiver, ambergris, and leather.", top: "🍋 Grapefruit, 🍋 Lemon, 🍋 Bergamot, 🟢 Lime, 🌿 Thyme, 🌿 Artemisia", heart: "🌾 Vetiver, 🫐 Juniper Berries, 🫐 Blackcurrant, 🍏 Apple, 🪵 Cedar", base: "🌊 Ambergris, 👜 Leather, 🍦 Vanilla, 🪵 Benzoin, 🔮 Labdanum" },
+        { id: 22, name: "Maison Margiela By The Fireplace", price: 110, img: "per21.jpg", desc: "Evokes cozy evenings by a crackling fire with roasted chestnuts, smoky wood, and sweet vanilla.", top: "🪵 Cloves, 🌶️ Pink Pepper, 🍊 Orange Blossom", heart: "🌰 Chestnut, 🌳 Guaiac Wood, 🫐 Juniper", base: "🍦 Vanilla, 🪵 Peru Balsam, 🪵 Cashmeran" },
+        { id: 23, name: "Guerlain L'Homme Ideal EDP", price: 118, img: "download (1).jpg", desc: "An enchanting blend of captivating almond, fiery warm spices, and oriental leather.", top: "🌰 Almond, 🌶️ Spices, 🪻 Lavender, 🍋 Bergamot, 🌿 Rosemary", heart: "🍒 Cherry, 🍦 Vanilla, 💨 Incense, 🌹 Rose", base: "👜 Leather, 🫘 Tonka Bean, 🪵 Sandalwood" },
+        { id: 24, name: "Givenchy Reserve Privee", price: 122, img: "download (2).jpg", desc: "An intoxicating whisky-inspired fragrance featuring powdery iris and amber wood notes.", top: "🍋 Bergamot", heart: "🪻 Iris, 🌰 Chestnut", base: "🥃 Whisky, 🔮 Amber, 🪵 Woody Notes" }
     ];
 
     let cart = [];
@@ -478,8 +613,9 @@
         if(u.toLowerCase() === 'admin' && p.toLowerCase() === 'admin') {
             document.getElementById('login-screen').classList.add('hidden');
             document.getElementById('main-nav').style.display = 'flex';
-            showPage('home'); render(perfumes);
-            updateLabSummary();
+            showPage('home'); 
+            render(perfumes);
+            initModernLabUI();
         } else { alert("Invalid Credentials."); }
     }
 
@@ -490,13 +626,39 @@
 
     function render(list) {
         document.getElementById('product-grid').innerHTML = list.map(p => `
-            <div class="card">
-                <img src="${p.img}" onerror="this.src='https://via.placeholder.com/200/0a1e19/d4af37?text=Perfume+Heaven'">
-                <h3 style="font-size:15px; margin:10px 0 5px 0; font-weight:500;">${p.name}</h3>
-                <p style="color:var(--gold-light); font-weight:bold; margin-bottom: 15px;">${p.price} JOD</p>
-                <button onclick="addToCart('${p.name}', ${p.price})">ADD TO BAG</button>
+            <div class="card" onclick="openDetailModal(${p.id})">
+                <img src="${p.img}" onerror="this.src='https://via.placeholder.com/200/0a1e19/d4af37?text=Perfume+Heaven'" alt="${p.name}">
+                <h3 style="font-size:14px; margin:10px 0 5px 0; font-weight:500;">${p.name}</h3>
+                <p style="color:var(--gold-light); font-weight:bold; margin-bottom: 12px; font-size:13px;">${p.price} JOD</p>
+                <button onclick="event.stopPropagation(); addToCart('${p.name}', ${p.price})">ADD TO BAG</button>
             </div>
         `).join('');
+    }
+
+    /* DETAILS MODAL FUNCTIONS */
+    function openDetailModal(id) {
+        const item = perfumes.find(p => p.id === id);
+        if (!item) return;
+
+        document.getElementById('modal-img').src = item.img;
+        document.getElementById('modal-title').innerText = item.name;
+        document.getElementById('modal-price').innerText = item.price + " JOD";
+        document.getElementById('modal-desc').innerText = item.desc;
+        document.getElementById('modal-top').innerText = item.top;
+        document.getElementById('modal-heart').innerText = item.heart;
+        document.getElementById('modal-base').innerText = item.base;
+
+        const btn = document.getElementById('modal-add-btn');
+        btn.onclick = function() {
+            addToCart(item.name, item.price);
+            closeDetailModal();
+        };
+
+        document.getElementById('detail-modal').classList.remove('hidden');
+    }
+
+    function closeDetailModal() {
+        document.getElementById('detail-modal').classList.add('hidden');
     }
 
     function addToCart(n, p) {
@@ -590,33 +752,171 @@
         document.getElementById(s + '-screen').classList.remove('hidden');
     }
 
-    /* HEAVEN LAB BESPOKE FUNCTIONS */
+    /* EXPANDED HEAVEN LAB NOTES WITH EMOJIS & ADDITIONAL SELECTIONS */
+    const labNotesData = {
+        top: [
+            { name: "Calabrian Bergamot", emoji: "🍋", desc: "Bright Citrus Zest", color: "citrus" },
+            { name: "Italian Mandarin", emoji: "🍊", desc: "Radiant Sweet Zest", color: "citrus" },
+            { name: "Pink Pepper", emoji: "🌶️", desc: "Fiery Sparkle", color: "spice" },
+            { name: "Crisp Green Apple", emoji: "🍏", desc: "Juicy & Fresh", color: "fruity" },
+            { name: "French Lavender", emoji: "🪻", desc: "Cool Aromatic", color: "herbal" },
+            { name: "Saffron Threads", emoji: "🌾", desc: "Opulent Warmth", color: "royal" },
+            { name: "Cold-Pressed Lime", emoji: "🟢", desc: "Zesty Ocean Spark", color: "citrus" },
+            { name: "Cardamom Pods", emoji: "🧂", desc: "Aromatic Spice", color: "spice" },
+            { name: "Spearmint Leaf", emoji: "🌿", desc: "Icy Botanical", color: "herbal" },
+            { name: "Wild Grapefruit", emoji: "🍋", desc: "Bittersweet Fresh", color: "citrus" }
+        ],
+        heart: [
+            { name: "Damascus Rose", emoji: "🌹", desc: "Crimson Velvet Floral", color: "rose" },
+            { name: "Florentine Iris", emoji: "🪻", desc: "Powdery Royalty", color: "iris" },
+            { name: "Smokey Jasmine", emoji: "🌸", desc: "Sensual White Floral", color: "jasmine" },
+            { name: "Black Cherry", emoji: "🍒", desc: "Rich Dark Gourmand", color: "cherry" },
+            { name: "Ceylon Cinnamon", emoji: "🪵", desc: "Warm Spiced Heart", color: "spice" },
+            { name: "Cashmere Wood", emoji: "🧣", desc: "Silky Smooth Warmth", color: "amber" },
+            { name: "Clary Sage", emoji: "🌿", desc: "Herbal & Earthy", color: "herbal" },
+            { name: "Royal Neroli", emoji: "🌼", desc: "Sunlit Golden Blossom", color: "citrus" },
+            { name: "Nutmeg Essence", emoji: "🌰", desc: "Exotic Warm Accent", color: "spice" },
+            { name: "Golden Honey", emoji: "🍯", desc: "Rich Nectar Sweetness", color: "amber" }
+        ],
+        base: [
+            { name: "Royal Oud Wood", emoji: "👑", desc: "Deep Regal Wood", color: "oud" },
+            { name: "Bourbon Vanilla", emoji: "🍦", desc: "Rich Velvet Sweetness", color: "vanilla" },
+            { name: "Tuscan Leather", emoji: "👜", desc: "Bold Smoked Leather", color: "leather" },
+            { name: "Omani Frankincense", emoji: "💨", desc: "Mystical Resinous Smoke", color: "smoky" },
+            { name: "Haitian Vetiver", emoji: "🌾", desc: "Earthy Green Roots", color: "earthy" },
+            { name: "Pure Ambergris", emoji: "🌊", desc: "Radiant Marine Depth", color: "oceanic" },
+            { name: "Dark Patchouli", emoji: "🌿", desc: "Indulgent Earth & Cocoa", color: "cocoa" },
+            { name: "Mysore Sandalwood", emoji: "🪵", desc: "Creamy Warm Woods", color: "amber" },
+            { name: "Praline & Tonka", emoji: "🍫", desc: "Decadent Gourmand", color: "vanilla" },
+            { name: "White Musk", emoji: "☁️", desc: "Clean Velvet Aura", color: "jasmine" }
+        ]
+    };
+
+    const colorProfiles = {
+        citrus: { liquid: "linear-gradient(180deg, #ffe066, #f39c12)", glass: "rgba(254, 211, 48, 0.5)", glow: "#f39c12" },
+        spice: { liquid: "linear-gradient(180deg, #e67e22, #d35400)", glass: "rgba(230, 126, 34, 0.5)", glow: "#d35400" },
+        fruity: { liquid: "linear-gradient(180deg, #2ecc71, #27ae60)", glass: "rgba(46, 204, 113, 0.4)", glow: "#27ae60" },
+        herbal: { liquid: "linear-gradient(180deg, #a8e6cf, #1abc9c)", glass: "rgba(26, 188, 156, 0.4)", glow: "#1abc9c" },
+        royal: { liquid: "linear-gradient(180deg, #f1c40f, #b38728)", glass: "rgba(241, 196, 15, 0.5)", glow: "#b38728" },
+        rose: { liquid: "linear-gradient(180deg, #ff4d4d, #990000)", glass: "rgba(255, 77, 77, 0.5)", glow: "#990000" },
+        iris: { liquid: "linear-gradient(180deg, #a55eea, #4b7bec)", glass: "rgba(165, 94, 234, 0.5)", glow: "#4b7bec" },
+        jasmine: { liquid: "linear-gradient(180deg, #ffffff, #d1d8e0)", glass: "rgba(255, 255, 255, 0.6)", glow: "#d1d8e0" },
+        cherry: { liquid: "linear-gradient(180deg, #eb3b5a, #881337)", glass: "rgba(235, 59, 90, 0.5)", glow: "#881337" },
+        amber: { liquid: "linear-gradient(180deg, #fa8231, #a55d35)", glass: "rgba(250, 130, 49, 0.5)", glow: "#fa8231" },
+        oud: { liquid: "linear-gradient(180deg, #795548, #2d1810)", glass: "rgba(121, 85, 72, 0.6)", glow: "#795548" },
+        vanilla: { liquid: "linear-gradient(180deg, #f7d794, #cf6a87)", glass: "rgba(247, 215, 148, 0.5)", glow: "#f7d794" },
+        leather: { liquid: "linear-gradient(180deg, #8d6e63, #3e2723)", glass: "rgba(141, 110, 99, 0.6)", glow: "#8d6e63" },
+        smoky: { liquid: "linear-gradient(180deg, #a4b0be, #2f3542)", glass: "rgba(164, 176, 190, 0.5)", glow: "#a4b0be" },
+        earthy: { liquid: "linear-gradient(180deg, #78e08f, #079992)", glass: "rgba(120, 224, 143, 0.5)", glow: "#78e08f" },
+        oceanic: { liquid: "linear-gradient(180deg, #81ecec, #0984e3)", glass: "rgba(129, 236, 236, 0.5)", glow: "#0984e3" },
+        cocoa: { liquid: "linear-gradient(180deg, #6D4C41, #1B0000)", glass: "rgba(109, 76, 65, 0.6)", glow: "#6D4C41" }
+    };
+
+    let selectedLabNotes = {
+        top: labNotesData.top[0],
+        heart: labNotesData.heart[0],
+        base: labNotesData.base[0]
+    };
+
+    function initModernLabUI() {
+        renderChips('top', labNotesData.top, 'top-chips-grid');
+        renderChips('heart', labNotesData.heart, 'heart-chips-grid');
+        renderChips('base', labNotesData.base, 'base-chips-grid');
+        updateLabSummary();
+    }
+
+    function renderChips(category, list, targetId) {
+        const container = document.getElementById(targetId);
+        container.innerHTML = list.map((item, index) => `
+            <div class="note-chip ${index === 0 ? 'active' : ''}" data-cat="${category}" data-index="${index}" onclick="selectLabNote('${category}', ${index}, this)">
+                <span class="chip-name"><span>${item.emoji}</span> ${item.name}</span>
+                <span class="chip-desc">${item.desc}</span>
+            </div>
+        `).join('');
+    }
+
+    function selectLabNote(category, index, element) {
+        document.querySelectorAll(`.note-chip[data-cat="${category}"]`).forEach(c => c.classList.remove('active'));
+        element.classList.add('active');
+        selectedLabNotes[category] = labNotesData[category][index];
+        updateLabSummary();
+    }
+
     function updateLabSummary() {
         const rawName = document.getElementById('custom-name').value.trim();
-        const title = rawName ? rawName : "Custom Bespoke Blend";
-        const top = document.getElementById('top-note').value;
-        const heart = document.getElementById('heart-note').value;
-        const base = document.getElementById('base-note').value;
+        const title = rawName ? rawName : "Custom Bespoke Elixir";
+
+        const top = selectedLabNotes.top;
+        const heart = selectedLabNotes.heart;
+        const base = selectedLabNotes.base;
+
+        const colorData = colorProfiles[base.color] || colorProfiles.royal;
+
         const size = document.getElementById('bottle-size').value;
-        
         const concSelect = document.getElementById('concentration');
-        const factor = parseFloat(concSelect.options[concSelect.selectedIndex].dataset.factor || 1);
-        
+        const selectedConcOption = concSelect.options[concSelect.selectedIndex];
+        const factor = parseFloat(selectedConcOption.dataset.factor || 1);
+        const intensity = selectedConcOption.dataset.intensity || "70%";
+
         const basePrice = size === "50" ? 85 : 120;
         const finalPrice = Math.round(basePrice * factor);
 
+        // Update Glass, Liquid & Glow Aura
+        const bottle = document.getElementById('lab-bottle');
+        const liquid = document.getElementById('liquid-level');
+        const aura = document.getElementById('preview-aura');
+
+        bottle.style.borderColor = colorData.glass;
+        bottle.style.boxShadow = `inset 0 0 15px ${colorData.glass}, 0 15px 35px ${colorData.glow}`;
+        liquid.style.background = colorData.liquid;
+        aura.style.background = `radial-gradient(circle, ${colorData.glow} 0%, transparent 70%)`;
+
+        // Size adjustments
+        if (size === "50") {
+            bottle.style.height = "140px";
+            bottle.style.width = "100px";
+            liquid.style.height = "65%";
+        } else {
+            bottle.style.height = "180px";
+            bottle.style.width = "120px";
+            liquid.style.height = "82%";
+        }
+
+        // Intensity Progress Meter
+        document.getElementById('intensity-val').innerText = intensity;
+        document.getElementById('intensity-fill').style.width = intensity;
+
+        // Vibe Badge Logic
+        const vibeTag = document.getElementById('vibe-tag');
+        if (base.name.includes("Oud") || base.name.includes("Leather")) {
+            vibeTag.innerText = "👑 Regal & Dark Leather Oud";
+        } else if (heart.name.includes("Cherry") || base.name.includes("Praline") || base.name.includes("Patchouli")) {
+            vibeTag.innerText = "🍒 Rich Gourmand & Indulgent";
+        } else if (heart.name.includes("Rose") || heart.name.includes("Jasmine")) {
+            vibeTag.innerText = "🌹 Sensual Velvet Floral";
+        } else if (top.name.includes("Bergamot") || top.name.includes("Mandarin") || top.name.includes("Lime")) {
+            vibeTag.innerText = "☀️ Radiant & Fresh Citrus";
+        } else {
+            vibeTag.innerText = "✨ Haute Couture Signature";
+        }
+
         document.getElementById('lab-summary-title').innerText = title;
-        document.getElementById('lab-summary-notes').innerText = `${top} • ${heart} • ${base}`;
+        document.getElementById('lab-summary-notes').innerHTML = `
+            <div><strong>Top Opening:</strong> ${top.emoji} ${top.name}</div>
+            <div><strong>Heart Core:</strong> ${heart.emoji} ${heart.name}</div>
+            <div><strong>Dry-Down Base:</strong> ${base.emoji} ${base.name}</div>
+            <div style="margin-top:8px; font-size: 11px; color: var(--gold-light);"><strong>Concentration:</strong> ${concSelect.value} (${size}ml Flacon)</div>
+        `;
         document.getElementById('lab-price').innerText = finalPrice;
 
-        return { title, top, heart, base, size, concentration: concSelect.value, price: finalPrice };
+        return { title, top: `${top.emoji} ${top.name}`, heart: `${heart.emoji} ${heart.name}`, base: `${base.emoji} ${base.name}`, size, concentration: concSelect.value, price: finalPrice };
     }
 
     function addCustomPerfumeToCart() {
         const formula = updateLabSummary();
-        const itemLabel = `🧪 ${formula.title} (${formula.size}ml - ${formula.concentration}) [${formula.top} / ${formula.heart} / ${formula.base}]`;
+        const itemLabel = `🧪 ${formula.title} (${formula.size}ml - ${formula.concentration})`;
         addToCart(itemLabel, formula.price);
-        alert(`"${formula.title}" has been successfully formulated and added to your bag.`);
+        alert(`🎉 "${formula.title}" has been master-formulated and added to your bag!`);
     }
 </script>
 </body>
